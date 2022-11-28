@@ -1,11 +1,15 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 const Search = () => {
   const [search, setSearch] = useState<string>("");
+  const router = useRouter();
+
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearch("");
+    router.push(`/products/${search}`);
   };
 
   return (

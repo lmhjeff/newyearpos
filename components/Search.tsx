@@ -18,7 +18,7 @@ const Search = () => {
         type="text"
         value={search}
         placeholder="Search the products"
-        className="bg-gray-200 rounded-lg px-4 py-2"
+        className="bg-gray-200 rounded-lg px-4 py-2 text-black"
         onChange={(e) => setSearch(e.target.value)}
       />
       <button

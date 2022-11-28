@@ -1,5 +1,5 @@
 const Products = () => {
-  return <div className="text-white w-screen">I am products page</div>;
+  return <div className="text-white">I am products page</div>;
 };
 
 export default Products;

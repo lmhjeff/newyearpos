@@ -9,9 +9,9 @@ export default function RootLayout({
   return (
     <html>
       <head />
-      <body className="flex flex-row w-full bg-[#111315]">
+      <body className="flex flex-row w-screen bg-[#111315]">
         <Menu />
-        {children}
+        <div className="w-full">{children}</div>
       </body>
     </html>
   );

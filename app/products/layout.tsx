@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <main className="flex flex-row w-full">
-      <div className="flex flex-col w-[1000px] p-4">
+      <div className="flex flex-col w-4/5 bg-green-300 p-4">
         <Search />
         {children}
       </div>

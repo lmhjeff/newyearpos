@@ -8,9 +8,10 @@ const Cart = () => {
   return (
     <div className="flex flex-col w-[20%] bg-gray-400 h-screen justify-center items-center">
       {!items ? (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center">
           <CubeTransparentIcon className="h-8 w-8 text-gray-600" />
-          <div className="text-gray-600">NO ITEM ADDED!!</div>
+
+          <div className="text-gray-600 text-center">NO ITEM ADDED!!</div>
         </div>
       ) : (
         <div>Many Items</div>

@@ -1,6 +1,6 @@
-import Cart from "../../components/Cart";
-import Category from "../../components/Category";
-import Search from "../../components/Search";
+import Cart from "../../../components/Cart";
+import Category from "../../../components/Category";
+import Search from "../../../components/Search";
 
 export default function RootLayout({
   children,

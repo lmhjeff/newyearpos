@@ -14,6 +14,10 @@ const menu = [
     name: "Orders",
     path: "/orders",
   },
+  {
+    name: "Studio",
+    path: "/studio",
+  },
 ];
 
 const Navigation = () => {
@@ -21,18 +25,20 @@ const Navigation = () => {
 
   return (
     <div className="my-8 flex flex-col w-full ">
-      <ul className="text-gray-400 text-center space-y-4">
+      <ul className="text-gray-400 text-center space-y-6">
         {menu.map((m) => (
-          <li
-            key={m.name}
-            className={`${
-              m.path === pathname
-                ? `bg-[#2d2d2d] rounded-md text-white`
-                : "text-gray-400"
-            } p-4 cursor-pointer hover:bg-[#2d2d2d] hover:rounded-md hover:text-white`}
-          >
-            <Link href={m.path}>{m.name}</Link>
-          </li>
+          <Link href={m.path} target={m.path === "/studio" ? "_blank" : ""}>
+            <li
+              key={m.name}
+              className={`${
+                m.path === pathname
+                  ? `bg-[#2d2d2d] rounded-md text-white`
+                  : "text-gray-400"
+              } p-4 cursor-pointer hover:bg-[#2d2d2d] hover:rounded-md hover:text-white`}
+            >
+              {m.name}
+            </li>
+          </Link>
         ))}
       </ul>
     </div>

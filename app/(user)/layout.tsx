@@ -1,5 +1,6 @@
 import "../../styles/globals.css";
 import Menu from "../../components/Menu";
+import { groq } from "next-sanity";
 
 export default function RootLayout({
   children,

@@ -25,7 +25,11 @@ const cateType = [
   },
 ];
 
-const Category = () => {
+type CategoryProps = {
+  category: Category[];
+};
+
+const Category = ({ category }: CategoryProps) => {
   //   const [cate, setCate] = useState<string>("");
   const router = useRouter();
 
@@ -33,17 +37,19 @@ const Category = () => {
     router.push(`/products/${e}`);
   };
 
+  console.log(category);
+
   return (
     <div className="grid grid-cols-4 gap-4 my-4">
-      {cateType.map((cate, i) => (
+      {category.map((cate, i) => (
         <button
-          onClick={() => handleCategory(cate.name)}
-          key={cate.type}
-          className={`px-4 py-3 rounded-lg ${
+          onClick={() => handleCategory(cate.category)}
+          key={cate.category}
+          className={`px-4 py-2 rounded-lg whitespace-nowrap ${
             i % 2 === 0 ? "bg-[#99b898]" : "bg-[#ff847c]"
           }`}
         >
-          {cate.name}
+          {cate.category}
         </button>
       ))}
     </div>

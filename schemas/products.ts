@@ -22,11 +22,13 @@ export const products = [
         name: "quantity",
         title: "Quantity",
         type: "number",
+        validation: (Rule: { required: () => any }) => Rule.required().min(0),
       },
       {
         name: "price",
         title: "Price",
         type: "number",
+        validation: (Rule: { required: () => any }) => Rule.required().min(0),
       },
       {
         name: "categories",

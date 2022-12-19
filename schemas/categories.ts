@@ -9,6 +9,14 @@ export const categories = [
         name: "category",
         title: "Category",
       },
+      {
+        name: "image",
+        title: "Image",
+        type: "image",
+        options: {
+          hotspot: true,
+        },
+      },
     ],
   },
 ];

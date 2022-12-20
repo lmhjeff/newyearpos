@@ -9,8 +9,7 @@ import Search from "../../../components/Search";
 import { client } from "../../../lib/sanity.client";
 
 const query = groq`
-  *[_type ==  'category'] 
-
+  *[_type == 'categories'] | order(category asc)
 `;
 
 export default async function RootLayout({

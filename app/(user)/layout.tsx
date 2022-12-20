@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <html>
       <head />
-      <body className="flex flex-row w-screen bg-[#111315]">
+      <body className="flex flex-row w-screen bg-[#111315] h-screen">
         <Menu />
         <div className="w-full">{children}</div>
       </body>

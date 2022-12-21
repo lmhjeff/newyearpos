@@ -15,7 +15,7 @@ interface StoreState {
   selectedItemWithId: (id: string) => void;
 }
 
-const useStore = create<StoreState>()(
+const useCartStore = create<StoreState>()(
   devtools(
     persist((set, get) => ({
       order: [],
@@ -44,4 +44,4 @@ const useStore = create<StoreState>()(
   )
 );
 
-export default useStore;
+export default useCartStore;

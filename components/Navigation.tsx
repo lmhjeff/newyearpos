@@ -27,9 +27,9 @@ const Navigation = () => {
     <div className="my-8 flex flex-col w-full ">
       <ul className="text-gray-400 text-center space-y-6">
         {menu.map((m) => (
-          <Link href={m.path} target={m.path === "/studio" ? "_blank" : ""}>
+          <Link key={m.name} href={m.path} target={m.path === "/studio" ? "_blank" : ""}>
             <li
-              key={m.name}
+              
               className={`${
                 m.path === pathname
                   ? `bg-[#2d2d2d] rounded-md text-white`

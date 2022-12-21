@@ -2,17 +2,24 @@
 
 import urlFor from "../lib/urlFor";
 import Image from "next/image";
-import useStore from "../app/store";
-import { useMemo } from "react";
+import useCartStore from "../app/store";
+import { useEffect, useMemo } from "react";
 
 const Card = (product: Product) => {
   const { _id, image, name, price, quantity } = product;
-  const { qty, add, reduce, selectedItemWithId, order } = useStore();
+  const { qty, add, reduce, selectedItemWithId, order } = useCartStore();
+
+  // console.log("order", order);
+  const item: Item[] = order.filter((a) => a._id === _id);
+
+  useEffect(() => {
+    selectedItemWithId(_id);
+  }, [add]);
 
   return (
     <div
       key={_id}
-      className="flex flex-col justify-start w-full h-60 max-w-sm rounded-lg shadow-md bg-gray-800 border-gray-700"
+      className="flex flex-col justify-start w-full h-60 max-w-sm rounded-lg shadow-md bg-[#2d2d2d] border-gray-700"
     >
       <div className="relative w-full h-36 drop-shadow-xl ">
         <Image
@@ -30,17 +37,17 @@ const Card = (product: Product) => {
 
         <div className="flex flex-row items-center justify-between">
           <div className="text-xl font-bold text-white">${price}</div>
-          <div className="flex space-x-4 my-4 items-center">
+          <div className="flex space-x-4 items-center pb-2">
             <button
-              //   onClick={() => reduce()}
-              className="w-8 h-8 p-0 text-center text-lg border-2 border-white rounded-md bg-transparent"
+              onClick={() => console.log("item2", item)}
+              className="w-8 h-8 p-0 text-center text-lg border-2 border-gray-500 rounded-md bg-transparent"
             >
               -
             </button>
-            <span className="text-lg">{selectedItemWithId.length}</span>
+            <span className="text-lg">{item.length}</span>
             <button
               onClick={() => add(product)}
-              className="w-8 h-8 p-0 text-center text-lg border-2 border-white rounded-md bg-transparent"
+              className="w-8 h-8 p-0 text-center text-lg border-2 border-gray-500 rounded-md bg-transparent"
             >
               +
             </button>

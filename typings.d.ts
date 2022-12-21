@@ -27,7 +27,7 @@ interface Product extends Base {
   categories: Category[];
 }
 
-interface Item {
+interface Item extends Base {
   image: Image;
   name: string;
   quantity: number;

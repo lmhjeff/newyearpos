@@ -24,7 +24,7 @@ const SearchResult = async ({ params: { searchResult } }: SearchItemProps) => {
 
   return (
     <div>
-      <p className="text-sm text-gray-400">You searched for {filter}</p>
+      <p className="text-sm text-gray-400 mb-2">You searched for {filter}</p>
       {products.length > 0 ? (
         <div className="grid grid-cols-3 gap-4 overflow-scroll h-[600px]">
           {products.map((product: Product) => (

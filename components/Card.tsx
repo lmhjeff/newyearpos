@@ -1,8 +1,14 @@
+"use client";
+
 import urlFor from "../lib/urlFor";
 import Image from "next/image";
+import useStore from "../app/store";
+import { useMemo } from "react";
 
 const Card = (product: Product) => {
   const { _id, image, name, price, quantity } = product;
+  const { qty, add, reduce, selectedItemWithId, order } = useStore();
+
   return (
     <div
       key={_id}
@@ -20,15 +26,22 @@ const Card = (product: Product) => {
         <h5 className="text-lg font-semibold tracking-tighttext-white">
           {name}
         </h5>
+        <p className="text-md text-gray-400">Qty: {quantity}</p>
 
         <div className="flex flex-row items-center justify-between">
           <div className="text-xl font-bold text-white">${price}</div>
           <div className="flex space-x-4 my-4 items-center">
-            <button className="w-8 h-8 p-0 text-center text-lg border-2 border-white rounded-md bg-transparent">
+            <button
+              //   onClick={() => reduce()}
+              className="w-8 h-8 p-0 text-center text-lg border-2 border-white rounded-md bg-transparent"
+            >
               -
             </button>
-            <span className="text-lg">0</span>
-            <button className="w-8 h-8 p-0 text-center text-lg border-2 border-white rounded-md bg-transparent">
+            <span className="text-lg">{selectedItemWithId.length}</span>
+            <button
+              onClick={() => add(product)}
+              className="w-8 h-8 p-0 text-center text-lg border-2 border-white rounded-md bg-transparent"
+            >
               +
             </button>
           </div>

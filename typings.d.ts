@@ -27,3 +27,9 @@ interface Product extends Base {
   categories: Category[];
 }
 
+interface Item {
+  image: Image;
+  name: string;
+  quantity: number;
+  price: number;
+}

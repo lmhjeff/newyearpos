@@ -45,7 +45,7 @@ const Category = ({ category }: CategoryProps) => {
         <button
           onClick={() => handleCategory(cate.category)}
           key={cate.category}
-          className={`px-4 py-2 rounded-lg whitespace-nowrap ${
+          className={`p-2 rounded-lg whitespace-nowrap ${
             i % 2 === 0 ? "bg-[#99b898]" : "bg-[#ff847c]"
           }`}
         >

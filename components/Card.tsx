@@ -7,14 +7,17 @@ import { useEffect, useMemo } from "react";
 
 const Card = (product: Product) => {
   const { _id, image, name, price, quantity } = product;
-  const { qty, add, reduce, selectedItemWithId, order } = useCartStore();
+  const { qty, add, reduce, order } = useCartStore();
 
-  // console.log("order", order);
-  const item: Item[] = order.filter((a) => a._id === _id);
+  //   const itemWithId = useCartStore((state) => state.selectedItemWithId(_id));
+  //   console.log("itemWithId11111", itemWithId);
+  //   const item: Item[] = order.filter((a) => a._id === _id);
 
-  useEffect(() => {
-    selectedItemWithId(_id);
-  }, [add]);
+  //   useEffect(() => {
+  //     selectedItemWithId(_id);
+
+  //     console.log(1111, order.length);
+  //   }, [add]);
 
   return (
     <div
@@ -39,12 +42,12 @@ const Card = (product: Product) => {
           <div className="text-xl font-bold text-white">${price}</div>
           <div className="flex space-x-4 items-center pb-2">
             <button
-              onClick={() => console.log("item2", item)}
+              onClick={() => console.log("item2")}
               className="w-8 h-8 p-0 text-center text-lg border-2 border-gray-500 rounded-md bg-transparent"
             >
               -
             </button>
-            <span className="text-lg">{item.length}</span>
+            <span className="text-lg">{order.length}</span>
             <button
               onClick={() => add(product)}
               className="w-8 h-8 p-0 text-center text-lg border-2 border-gray-500 rounded-md bg-transparent"

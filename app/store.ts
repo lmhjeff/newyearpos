@@ -17,30 +17,35 @@ interface StoreState {
 
 const useCartStore = create<StoreState>()(
   devtools(
-    persist((set, get) => ({
-      order: [],
-      qty: 0,
-      add: (item) =>
-        set((state) => ({
-          order: [...state.order, item],
-        })),
-      reduce: () =>
-        set((state) => ({
-          qty: state.qty - 1,
-        })),
-      removeFromCart: (id) =>
-        set((state) => ({
-          order: state.order.filter((o) => o._id !== id),
-        })),
-      subTotal: 0,
-      discount: 0,
-      totalPrice: 0,
-      paymentMethod: "cash",
-      selectedItemWithId: (id) =>
-        set((state) => ({
-          order: state.order.filter((item) => item._id === id),
-        })),
-    }))
+    persist(
+      (set, get) => ({
+        order: [],
+        qty: 0,
+        add: (item) =>
+          set((state) => ({
+            order: [...state.order, item],
+          })),
+        reduce: () =>
+          set((state) => ({
+            qty: state.qty - 1,
+          })),
+        removeFromCart: (id) =>
+          set((state) => ({
+            order: state.order.filter((o) => o._id !== id),
+          })),
+        subTotal: 0,
+        discount: 0,
+        totalPrice: 0,
+        paymentMethod: "cash",
+        selectedItemWithId: (id) =>
+          set((state) => ({
+            order: state.order.filter((item) => item._id === id),
+          })),
+      }),
+      {
+        name: "cart-storage",
+      }
+    )
   )
 );
 

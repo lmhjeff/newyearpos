@@ -30,6 +30,8 @@ const Card = (product: Product) => {
           src={urlFor(image).url()}
           alt={name}
           fill
+          sizes="50vw"
+          priority
         />
       </div>
       <div className="px-3 mt-2">

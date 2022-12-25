@@ -43,6 +43,13 @@ export const products = [
           },
         ],
       },
+      {
+        name: "qty",
+        title: "Quantity in cart",
+        type: "number",
+        validation: (Rule: { required: () => any }) => Rule.required().min(0),
+        initialValue: 0,
+      },
     ],
   },
 ];

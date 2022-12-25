@@ -7,11 +7,11 @@ import { useEffect, useMemo } from "react";
 
 const Card = (product: Product) => {
   const { _id, image, name, price, quantity } = product;
-  const { qty, add, reduce, order } = useCartStore();
+  const { add, reduce, cart } = useCartStore();
 
   //   const itemWithId = useCartStore((state) => state.selectedItemWithId(_id));
   //   console.log("itemWithId11111", itemWithId);
-  //   const item: Item[] = order.filter((a) => a._id === _id);
+  const qty: number | undefined = cart.find((a) => a._id === _id)?.qty;
 
   //   useEffect(() => {
   //     selectedItemWithId(_id);
@@ -49,7 +49,7 @@ const Card = (product: Product) => {
             >
               -
             </button>
-            <span className="text-lg">{order.length}</span>
+            <span className="text-lg">{qty ?? 0}</span>
             <button
               onClick={() => add(product)}
               className="w-8 h-8 p-0 text-center text-lg border-2 border-gray-500 rounded-md bg-transparent"

@@ -18,8 +18,6 @@ interface StoreState {
   subTotal: number;
   discount?: number;
   totalPrice: number;
-  paymentMethod: string;
-  selectedItemWithId: (id: string) => void;
 }
 
 const useCartStore = create<StoreState>()(
@@ -28,6 +26,9 @@ const useCartStore = create<StoreState>()(
       (set, get) => ({
         cart: [],
         qty: 0,
+        subTotal: 0,
+        discount: 0,
+        totalPrice: 0,
         add: (item) => {
           const inCart = get().cart.find((exist) =>
             exist._id === item._id ? true : false
@@ -39,6 +40,7 @@ const useCartStore = create<StoreState>()(
                   c._id === item._id ? { ...c, qty: c.qty + 1 } : c
                 )
               : [...state.cart, { ...item, qty: 1 }],
+            subTotal: state.subTotal + item.price,
           }));
         },
         reduce: (item: Item) => {
@@ -49,6 +51,7 @@ const useCartStore = create<StoreState>()(
           if (inCart?.qty! <= 1) {
             set((state) => ({
               cart: state.cart.filter((o) => o._id !== item._id),
+              subTotal: state.subTotal - item.price,
             }));
           } else {
             set((state) => ({
@@ -59,21 +62,19 @@ const useCartStore = create<StoreState>()(
                       : c
                   )
                 : [...state.cart],
+              subTotal: inCart ? state.subTotal - item.price : state.subTotal,
             }));
           }
         },
-        removeFromCart: (id) =>
+        removeFromCart: (id) => {
+          const totalPrice = get().cart.find((item) => item._id === id);
+          const { price, qty } = totalPrice!;
+
           set((state) => ({
             cart: state.cart.filter((o) => o._id !== id),
-          })),
-        subTotal: 0,
-        discount: 0,
-        totalPrice: 0,
-        paymentMethod: "cash",
-        selectedItemWithId: (id) =>
-          set((state) => ({
-            cart: state.cart.filter((item) => item._id === id),
-          })),
+            subTotal: state.subTotal - price * qty,
+          }));
+        },
       }),
       {
         name: "cart-storage",

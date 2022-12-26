@@ -8,8 +8,9 @@ const Cart = () => {
   const [items, setItems] = useState<boolean>(false);
   const { removeFromCart } = useCartStore();
   const cart = useCartStore((state) => state.cart);
+  const subTotal = useCartStore((state) => state.subTotal);
 
-  console.log("cart", cart);
+  console.log("subTotal", cart, subTotal);
 
   return (
     <div
@@ -18,7 +19,7 @@ const Cart = () => {
       } p-2 overflow-scroll mx-2 pt-16`}
     >
       {cart.length === 0 ? (
-        <div className="flex flex-col items-center justify-center bg-[#2d2d2d] h-full rounded-md">
+        <div className="flex flex-col items-center justify-center bg-[#2d2d2d] h-full rounded-lg">
           <CubeTransparentIcon className="h-8 w-8 text-gray-400" />
           <div className="text-gray-400 text-center">NO ITEM ADDED!!</div>
         </div>
@@ -49,10 +50,10 @@ const Cart = () => {
               : null}
           </div>
           <div className="flex flex-col justify-between items-center bg-[#2d2d2d] rounded-md w-full h-[380px] absolute bottom-0 p-4 space-y-3">
-            <div className="w-full">
+            <div className="flex flex-col space-y-3 w-full">
               <div className="flex flex-row w-full justify-between items-center">
                 <p>Subtotal</p>
-                <p>$999</p>
+                <p>{subTotal}</p>
               </div>
               <div className="flex flex-row w-full justify-between items-center">
                 <p>Discount</p>

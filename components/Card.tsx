@@ -9,15 +9,7 @@ const Card = (product: Product) => {
   const { _id, image, name, price, quantity } = product;
   const { add, reduce, cart } = useCartStore();
 
-  //   const itemWithId = useCartStore((state) => state.selectedItemWithId(_id));
-  //   console.log("itemWithId11111", itemWithId);
   const qty: number | undefined = cart.find((a) => a._id === _id)?.qty;
-
-  //   useEffect(() => {
-  //     selectedItemWithId(_id);
-
-  //     console.log(1111, order.length);
-  //   }, [add]);
 
   return (
     <div

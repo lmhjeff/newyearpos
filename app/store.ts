@@ -12,7 +12,7 @@ import {
 interface StoreState {
   cart: Item[];
   add: (item: Item) => void;
-  reduce: () => void;
+  reduce: (item: Item) => void;
   qty: number;
   removeFromCart: (id: string) => void;
   subTotal: number;
@@ -41,10 +41,27 @@ const useCartStore = create<StoreState>()(
               : [...state.cart, { ...item, qty: 1 }],
           }));
         },
-        reduce: () =>
-          set((state) => ({
-            qty: state.qty - 1,
-          })),
+        reduce: (item: Item) => {
+          const inCart = get().cart.find((exist) =>
+            exist._id === item._id ? true : false
+          );
+
+          if (inCart?.qty! <= 1) {
+            set((state) => ({
+              cart: state.cart.filter((o) => o._id !== item._id),
+            }));
+          } else {
+            set((state) => ({
+              cart: inCart
+                ? state.cart.map((c) =>
+                    c._id === item._id && c.qty > 0
+                      ? { ...c, qty: c.qty - 1 }
+                      : c
+                  )
+                : [...state.cart],
+            }));
+          }
+        },
         removeFromCart: (id) =>
           set((state) => ({
             cart: state.cart.filter((o) => o._id !== id),

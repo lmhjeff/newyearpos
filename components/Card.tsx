@@ -44,7 +44,7 @@ const Card = (product: Product) => {
           <div className="text-xl font-bold text-white">${price}</div>
           <div className="flex space-x-4 items-center pb-2">
             <button
-              onClick={() => console.log("item2")}
+              onClick={() => reduce(product)}
               className="w-8 h-8 p-0 text-center text-lg border-2 border-gray-500 rounded-md bg-transparent"
             >
               -

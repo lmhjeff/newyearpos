@@ -11,16 +11,12 @@ type SearchItemProps = {
 };
 
 const SearchResult = async ({ params: { searchResult } }: SearchItemProps) => {
-  console.log("searchResult", decodeURI(searchResult));
   const filter = decodeURI(searchResult);
 
-  console.log("filter", filter);
   const query = groq`
     *[$filter in categories[]->category] | order(name asc)
   `;
   const products: Product[] = await client.fetch(query, { filter });
-
-  console.log("products", products);
 
   return (
     <div className="overflow-hidden">

@@ -8,6 +8,6 @@ type Props = {
 
 export default function PreviewCategory({ query }: Props) {
   const category = usePreview(null, query);
-  console.log("PreviewCategory", category);
+
   return <Category category={category} />;
 }

@@ -19,8 +19,6 @@ export default async function RootLayout({
 }) {
   const category = await client.fetch(query);
 
-  console.log(category);
-
   if (previewData()) {
     return (
       <PreviewSuspense

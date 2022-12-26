@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html>
       <head />
-      <body className="flex flex-row w-screen bg-[#111315] h-screen">
+      <body className="flex flex-row bg-[#111315] h-screen">
         <Menu />
         <div className="w-full">{hasHydrated ? children : null}</div>
       </body>

@@ -23,10 +23,10 @@ const SearchResult = async ({ params: { searchResult } }: SearchItemProps) => {
   console.log("products", products);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <p className="text-sm text-gray-400 mb-2">You searched for {filter}</p>
       {products.length > 0 ? (
-        <div className="grid grid-cols-3 gap-4 overflow-scroll h-[600px]">
+        <div className="grid grid-cols-3 gap-4 h-[520px] overflow-y-scroll scrollbar-none">
           {products.map((product: Product) => (
             <Card {...product} />
           ))}

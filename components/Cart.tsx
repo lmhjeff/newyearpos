@@ -13,7 +13,7 @@ const Cart = () => {
 
   return (
     <div
-      className={`flex flex-col w-[30%] min-w-[350px] h-screen ${
+      className={`flex flex-col  w-[30%] min-w-[350px] h-screen ${
         cart.length > 0 ? "items-start" : "justify-center"
       } p-2 overflow-scroll mx-2`}
     >
@@ -28,18 +28,18 @@ const Cart = () => {
             ? cart?.map((item, i) => (
                 <div
                   key={item._id}
-                  className="flex flex-row items-center w-full bg-[#2d2d2d] text-white p-4 rounded-md space-x-4"
+                  className="flex flex-row justify-between items-center w-full bg-[#2d2d2d] text-md text-white p-4 rounded-md space-x-4"
                 >
-                  <div className="bg-white w-6 h-6 text-center rounded-full text-[#2d2d2d]">
+                  <div className="flex justify-center items-center bg-white w-6 h-6 rounded-full text-[#2d2d2d]">
                     {i + 1}
                   </div>
-                  <div>
+                  <div className="flex-1 break-all">
                     {item.name} x {item.qty}
                   </div>
-                  <div>@ ${item.price}</div>
+                  <div className=" break-all">@ ${item.price}</div>
                   <button
                     onClick={() => removeFromCart(item._id)}
-                    className="bg-red-500 w-6 h-6 rounded-full text-center"
+                    className="flex justify-center items-center bg-red-500 w-6 h-6 pb-1 rounded-full text-center"
                   >
                     x
                   </button>

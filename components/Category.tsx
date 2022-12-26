@@ -40,7 +40,7 @@ const Category = ({ category }: CategoryProps) => {
   console.log(category);
 
   return (
-    <div className="grid grid-cols-4 gap-4 my-4">
+    <div className="grid grid-cols-4 gap-4 my-4 overflow-y-auto scrollbar-none">
       {category.map((cate, i) => (
         <button
           onClick={() => handleCategory(cate.category)}

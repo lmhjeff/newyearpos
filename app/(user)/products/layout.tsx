@@ -40,7 +40,7 @@ export default async function RootLayout({
 
   return (
     <main className="flex flex-row w-full">
-      <div className="flex flex-col w-4/5 p-4">
+      <div className="flex flex-col w-4/5 p-4 h-screen">
         <Search />
         <Category category={category} />
         {children}

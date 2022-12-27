@@ -24,10 +24,10 @@ const Cart = () => {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm<CartInput>();
-  const onSubmit: SubmitHandler<CartInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<CartInput> = (data) =>
+    console.log({ ...data, products: cart });
 
   const handleDiscount = (value: string) => {
     setDiscount(value);
@@ -57,7 +57,7 @@ const Cart = () => {
     <div
       className={`flex flex-col w-[30%] min-w-[350px] h-screen ${
         cart.length > 0 ? "items-start" : "justify-center"
-      } p-2 overflow-scroll mx-2 pt-16`}
+      } p-2 mx-2 pt-16`}
     >
       {cart.length === 0 ? (
         <div className="flex flex-col items-center justify-center bg-[#2d2d2d] h-full rounded-lg">
@@ -94,7 +94,7 @@ const Cart = () => {
                   ))
                 : null}
             </div>
-            <div className="flex flex-col justify-between items-center bg-[#2d2d2d] rounded-md w-full h-[380px] absolute bottom-0 p-4 space-y-3">
+            <div className="flex flex-col justify-between items-center bg-[#2d2d2d] rounded-md h-[380px] absolute bottom-0 p-4 space-y-2">
               <div className="flex flex-col space-y-3 w-full">
                 <div className="flex flex-row w-full justify-between items-center">
                   <p>Subtotal</p>
@@ -116,7 +116,8 @@ const Cart = () => {
                     id="price"
                     onChange={(e) => setPrice(e.target.value)}
                     type="number"
-                    className="bg-transparent w-[100px] p-2 border-[1px] border-white rounded-lg"
+                    className="bg-transparent w-[100px] p-2 border-[1px] border-white rounded-lg text-right"
+                    defaultValue={0}
                   />
                 </div>
                 <hr className="border-dashed border-1 border-white w-full" />
@@ -127,19 +128,25 @@ const Cart = () => {
               </div>
               <div className="flex flex-col w-full mt-8 space-y-4">
                 <h3>Payment Method</h3>
+                {errors.paymentMethod?.type === "required" && (
+                  <p role="alert" className="text-red-400">
+                    Payment method is required!!!
+                  </p>
+                )}
                 <div className="flex flex-row w-full justify-between">
                   <ul className="grid grid-cols-3 gap-3 items-center w-full">
                     <li className="relative">
                       <input
-                        {...register("paymentMethod")}
+                        {...register("paymentMethod", { required: true })}
                         id="cash"
                         type="radio"
                         value="cash"
-                        name="default-radio"
+                        name="paymentMethod"
                         className="peer text-black hidden"
                       />
+
                       <label
-                        htmlFor="default-radio-1"
+                        htmlFor="cash"
                         className="flex cursor-pointer border-white border-[1px] justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
                       >
                         Cash
@@ -147,14 +154,15 @@ const Cart = () => {
                     </li>
                     <li className="relative">
                       <input
-                        id="default-radio-2"
+                        {...register("paymentMethod", { required: true })}
+                        id="payme"
                         type="radio"
                         value="payme"
-                        name="default-radio"
+                        name="paymentMethod"
                         className="peer text-black hidden"
                       />
                       <label
-                        htmlFor="default-radio-2"
+                        htmlFor="payme"
                         className="flex cursor-pointer border-white border-[1px]  justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
                       >
                         Payme
@@ -162,14 +170,15 @@ const Cart = () => {
                     </li>
                     <li className="relative">
                       <input
-                        id="default-radio-3"
+                        {...register("paymentMethod", { required: true })}
+                        id="fps"
                         type="radio"
-                        value="payme"
-                        name="default-radio"
+                        value="fps"
+                        name="paymentMethod"
                         className="peer text-black hidden"
                       />
                       <label
-                        htmlFor="default-radio-3"
+                        htmlFor="fps"
                         className="flex cursor-pointer border-white border-[1px]  justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
                       >
                         FPS

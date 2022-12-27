@@ -25,7 +25,7 @@ interface Product extends Base {
   price: number;
   quantity: number;
   categories: Category[];
-  qty: number;
+  qty?: number;
 }
 
 interface Item extends Base {
@@ -33,5 +33,5 @@ interface Item extends Base {
   name: string;
   quantity: number;
   price: number;
-  qty: number;
+  qty?: number;
 }

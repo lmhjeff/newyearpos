@@ -25,13 +25,12 @@ interface Product extends Base {
   price: number;
   quantity: number;
   categories: Category[];
-  qty?: number;
+  orderQty?: number;
 }
 
 interface Item extends Base {
   image: Image;
   name: string;
-  quantity: number;
   price: number;
-  qty?: number;
+  orderQty?: number;
 }

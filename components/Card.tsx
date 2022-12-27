@@ -9,7 +9,7 @@ const Card = (product: Product) => {
   const { _id, image, name, price, quantity } = product;
   const { add, reduce, cart } = useCartStore();
 
-  const qty: number | undefined = cart.find((a) => a._id === _id)?.qty;
+  const qty: number | undefined = cart.find((a) => a._id === _id)?.orderQty;
 
   return (
     <div

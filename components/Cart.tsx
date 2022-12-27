@@ -1,15 +1,16 @@
 "use client";
 
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
+import { Select, Spin } from "antd";
 import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import useCartStore from "../app/store";
-import { useForm, SubmitHandler } from "react-hook-form";
 
 type CartInput = {
   products: Product[];
   subTotal: number;
   discount: string;
-  price: number;
+  discountPrice: number;
   total: number;
   paymentMethod: string;
 };
@@ -18,40 +19,70 @@ const Cart = () => {
   const { removeFromCart } = useCartStore();
   const cart = useCartStore((state) => state.cart);
   const subTotal = useCartStore((state) => state.subTotal);
+  const reset = useCartStore((state) => state.reset);
   const [discount, setDiscount] = useState("sellingPrice");
   const [total, setTotal] = useState<number>(0);
-  const [price, setPrice] = useState<number | any>(null);
+  const [discountPrice, setDiscountPrice] = useState<number | any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CartInput>();
-  const onSubmit: SubmitHandler<CartInput> = (data) =>
-    console.log({ ...data, products: cart });
-
-  const handleDiscount = (value: string) => {
-    setDiscount(value);
-  };
-
-  useEffect(() => {
-    console.log("discount", discount);
-  }, [discount]);
 
   useEffect(() => {
     const calculation = () => {
       if (discount === "sellingPrice") {
-        setTotal(subTotal - price);
+        setTotal(subTotal - discountPrice);
       } else {
-        setTotal(subTotal * price);
+        setTotal(subTotal * discountPrice);
       }
     };
 
     calculation();
-  }, [discount, price, total]);
+  }, [discount, discountPrice]);
 
   useEffect(() => {
     setTotal(subTotal);
   }, [subTotal]);
+
+  const onSubmit: SubmitHandler<CartInput> = async (data) => {
+    setLoading(true);
+    const orderItems = cart.map((item: any) => ({
+      _key: item._id,
+      name: item.name,
+      orderQty: item.orderQty,
+      image: item.image,
+      price: item.price,
+    }));
+
+    const order = {
+      ...data,
+      orderItems: orderItems,
+      subTotal: subTotal,
+      discount: discount,
+      discountPrice: data.discountPrice ?? 0,
+      paymentMethod: data.paymentMethod,
+      total: total,
+      preOrder: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    fetch("/api/createOrder", {
+      method: "POST",
+      body: JSON.stringify(order),
+    }).then(() => {
+      reset();
+      setDiscount("sellingPrice");
+      setDiscountPrice(0);
+      setLoading(false);
+    });
+  };
+
+  const handleDiscount = (value: string) => {
+    setDiscount(value);
+  };
 
   return (
     <div
@@ -66,7 +97,7 @@ const Cart = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center w-full pb-2 h-full overflow-scroll relative">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div
               {...register("products")}
               className="flex flex-col items-center space-y-4 w-full h-[350px] overflow-y-scroll scrollbar-none "
@@ -81,7 +112,7 @@ const Cart = () => {
                         {i + 1}
                       </div>
                       <div className="flex-1 break-all">
-                        {item.name} x {item.qty}
+                        {item.name} x {item.orderQty}
                       </div>
                       <div className=" break-all">@ ${item.price}</div>
                       <button
@@ -94,28 +125,38 @@ const Cart = () => {
                   ))
                 : null}
             </div>
-            <div className="flex flex-col justify-between items-center bg-[#2d2d2d] rounded-md h-[380px] absolute bottom-0 p-4 space-y-2">
+            <div className="flex flex-col w-full justify-between items-center bg-[#2d2d2d] rounded-md h-[380px] absolute bottom-0 p-4 space-y-2">
               <div className="flex flex-col space-y-3 w-full">
                 <div className="flex flex-row w-full justify-between items-center">
                   <p>Subtotal</p>
                   <p>${subTotal}</p>
                 </div>
                 <div className="flex flex-row w-full justify-between items-center">
-                  <select
-                    {...register("discount")}
-                    className="select w-1/3 bg-transparent"
-                    onChange={(e) => handleDiscount(e.target.value)}
+                  <Select
+                    className="bg-transparent w-1/3"
+                    onChange={handleDiscount}
                     defaultValue="sellingPrice"
-                  >
-                    <option disabled>Discount</option>
-                    <option value="sellingPrice">減價</option>
-                    <option value="percent">折扣 %</option>
-                  </select>
+                    options={[
+                      {
+                        value: "discount",
+                        label: "discount",
+                        disabled: true,
+                      },
+                      {
+                        value: "sellingPrice",
+                        label: "減價",
+                      },
+                      {
+                        value: "percentage",
+                        label: "折扣 %",
+                      },
+                    ]}
+                  />
+
                   <input
-                    {...register("price")}
-                    id="price"
-                    onChange={(e) => setPrice(e.target.value)}
-                    type="number"
+                    {...register("discountPrice")}
+                    id="discountPrice"
+                    onChange={(e) => setDiscountPrice(e.target.value)}
                     className="bg-transparent w-[100px] p-2 border-[1px] border-white rounded-lg text-right"
                     defaultValue={0}
                   />
@@ -123,7 +164,7 @@ const Cart = () => {
                 <hr className="border-dashed border-1 border-white w-full" />
                 <div className="flex flex-row w-full justify-between items-center my-2 text-3xl font-semibold">
                   <p>Total</p>
-                  <p>${total.toFixed(2)}</p>
+                  <p>${total?.toFixed(2)}</p>
                 </div>
               </div>
               <div className="flex flex-col w-full mt-8 space-y-4">
@@ -188,10 +229,11 @@ const Cart = () => {
                 </div>
                 <div className="flex flex-row justify-between items-center space-x-4">
                   <button
+                    disabled={loading}
                     type="submit"
-                    className="bg-green-300 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700"
+                    className="bg-green-300 disabled:bg-gray-200 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700"
                   >
-                    Place Order
+                    {loading ? <Spin /> : "Place Order"}
                   </button>
                   <button className="bg-orange-400 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700">
                     Pre Order

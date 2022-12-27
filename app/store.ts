@@ -18,6 +18,7 @@ interface StoreState {
   subTotal: number;
   discount?: number;
   totalPrice: number;
+  reset: () => void;
 }
 
 const useCartStore = create<StoreState>()(
@@ -37,9 +38,9 @@ const useCartStore = create<StoreState>()(
           set((state) => ({
             cart: inCart
               ? state.cart.map((c) =>
-                  c._id === item._id ? { ...c, qty: c.qty! + 1 } : c
+                  c._id === item._id ? { ...c, orderQty: c.orderQty! + 1 } : c
                 )
-              : [...state.cart, { ...item, qty: 1 }],
+              : [...state.cart, { ...item, orderQty: 1 }],
             subTotal: state.subTotal + item.price,
           }));
         },
@@ -48,7 +49,7 @@ const useCartStore = create<StoreState>()(
             exist._id === item._id ? true : false
           );
 
-          if (inCart?.qty! <= 1) {
+          if (inCart?.orderQty! <= 1) {
             set((state) => ({
               cart: state.cart.filter((o) => o._id !== item._id),
               subTotal: state.subTotal - item.price,
@@ -57,8 +58,8 @@ const useCartStore = create<StoreState>()(
             set((state) => ({
               cart: inCart
                 ? state.cart.map((c) =>
-                    c._id === item._id && c.qty! > 0
-                      ? { ...c, qty: c.qty! - 1 }
+                    c._id === item._id && c.orderQty! > 0
+                      ? { ...c, orderQty: c.orderQty! - 1 }
                       : c
                   )
                 : [...state.cart],
@@ -68,11 +69,20 @@ const useCartStore = create<StoreState>()(
         },
         removeFromCart: (id) => {
           const totalPrice = get().cart.find((item) => item._id === id);
-          const { price, qty } = totalPrice!;
+          const { price, orderQty } = totalPrice!;
 
           set((state) => ({
             cart: state.cart.filter((o) => o._id !== id),
-            subTotal: state.subTotal - price * qty!,
+            subTotal: state.subTotal - price * orderQty!,
+          }));
+        },
+        reset: () => {
+          set((state) => ({
+            cart: [],
+            qty: 0,
+            subTotal: 0,
+            discount: 0,
+            totalPrice: 0,
           }));
         },
       }),

@@ -26,11 +26,10 @@ export default async function createOrder(
         discount: discount,
         discountPrice: discountPrice ?? 0, //string
         paymentMethod: paymentMethod,
-        total: +total.toFixed(2),
+        total: +total.toFixed(2), //+make string to number
         preOrder: preOrder,
         createdAt: createdAt,
       })
-
       .then((res) => {
         console.log("Whole lot of stuff just happened", res);
       });

@@ -26,15 +26,16 @@ export default async function createOrder(
         discount: discount,
         discountPrice: discountPrice ?? 0, //string
         paymentMethod: paymentMethod,
-        total: total,
+        total: +total.toFixed(2),
         preOrder: preOrder,
         createdAt: createdAt,
       })
+
       .then((res) => {
-        console.log("res", res);
+        console.log("Whole lot of stuff just happened", res);
       });
   } catch (err) {
-    console.log(err);
+    console.log("Transaction failed: ", err);
   }
 
   return res.status(200).json({ message: "Order placed" });

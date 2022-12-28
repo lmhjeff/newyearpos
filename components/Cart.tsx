@@ -78,6 +78,13 @@ const Cart = () => {
       setDiscountPrice(0);
       setLoading(false);
     });
+
+    fetch("/api/reduceQty", {
+      method: "POST",
+      body: JSON.stringify(orderItems),
+    }).then(() => {
+      console.log("reduced");
+    });
   };
 
   const handleDiscount = (value: string) => {

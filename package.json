@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.2.0",
     "@heroicons/react": "^2.0.13",
     "@portabletext/react": "^2.0.0",
     "@sanity/cli": "^3.0.6",

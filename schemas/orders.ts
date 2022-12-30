@@ -56,6 +56,21 @@ export const orders = [
         title: "Created At",
         type: "datetime",
       },
+      {
+        name: "address",
+        title: "Address",
+        type: "string",
+      },
+      {
+        name: "remark",
+        title: "Remark",
+        type: "text",
+      },
+      {
+        name: "status",
+        title: "Status",
+        type: "string",
+      },
     ],
   },
 ];

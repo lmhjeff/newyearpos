@@ -14,6 +14,8 @@ export default async function createOrder(
     total,
     preOrder,
     createdAt,
+    address,
+    status,
   } = JSON.parse(req.body);
 
   try {
@@ -29,6 +31,8 @@ export default async function createOrder(
         total: +total.toFixed(2), //+make string to number
         preOrder: preOrder,
         createdAt: createdAt,
+        address: address,
+        status: status,
       })
       .then((res) => {
         console.log("Whole lot of stuff just happened", res);

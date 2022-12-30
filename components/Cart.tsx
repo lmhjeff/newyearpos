@@ -2,7 +2,7 @@
 
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
 import { Select, Spin } from "antd";
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useCartStore from "../app/store";
 
@@ -13,6 +13,7 @@ type CartInput = {
   discountPrice: number;
   total: number;
   paymentMethod: string;
+  address?: string;
 };
 
 const Cart = () => {
@@ -24,6 +25,7 @@ const Cart = () => {
   const [total, setTotal] = useState<number>(0);
   const [discountPrice, setDiscountPrice] = useState<number | any>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const addressRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -47,6 +49,10 @@ const Cart = () => {
     setTotal(subTotal);
   }, [subTotal]);
 
+  useEffect(() => {
+    console.log("addressRef", addressRef);
+  }, [addressRef]);
+
   const onSubmit: SubmitHandler<CartInput> = async (data) => {
     setLoading(true);
     const orderItems = cart.map((item: any) => ({
@@ -67,6 +73,8 @@ const Cart = () => {
       total: total,
       preOrder: false,
       createdAt: new Date().toISOString(),
+      address: addressRef?.current?.value,
+      status: "Completed"
     };
 
     fetch("/api/createOrder", {
@@ -173,6 +181,14 @@ const Cart = () => {
                   <p>Total</p>
                   <p>${total?.toFixed(2)}</p>
                 </div>
+                {total >= 1000 ? (
+                  <input
+                    id="address"
+                    ref={addressRef}
+                    className="text-blue-500 rounded-lg p-2 w-full focus:border-2 border-green-300"
+                    placeholder="input address"
+                  />
+                ) : null}
               </div>
               <div className="flex flex-col w-full mt-8 space-y-4">
                 <h3>Payment Method</h3>

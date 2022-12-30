@@ -34,3 +34,25 @@ interface Item extends Base {
   price: number;
   orderQty?: number;
 }
+
+interface OrderItem {
+  name: string;
+  orderQty: number;
+  image: Image;
+  price: number;
+}
+
+interface Order extends Base {
+  orderId: string;
+  orderItems: OrderItem[];
+  subTotal: number;
+  discount: string;
+  discountPrice: string;
+  paymentMethod: string;
+  total: number;
+  preOrder: boolean;
+  createdAt: Date;
+  address?: string;
+  remark?: string;
+  status: string;
+}

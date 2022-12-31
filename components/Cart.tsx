@@ -176,6 +176,7 @@ const Cart = () => {
                     onChange={(e) => setDiscountPrice(e.target.value)}
                     className="bg-transparent w-[100px] p-2 border-[1px] border-white rounded-lg text-right"
                     defaultValue={0}
+                    type="number"
                   />
                 </div>
                 <hr className="border-dashed border-1 border-white w-full" />
@@ -183,14 +184,13 @@ const Cart = () => {
                   <p>Total</p>
                   <p>${total?.toFixed(2)}</p>
                 </div>
-                {total >= 1000 ? (
-                  <input
-                    id="address"
-                    ref={addressRef}
-                    className="text-blue-500 rounded-lg p-2 w-full focus:border-2 border-green-300"
-                    placeholder="input address"
-                  />
-                ) : null}
+
+                <input
+                  id="address"
+                  ref={addressRef}
+                  className="text-blue-500 rounded-lg p-2 w-full focus:border-2 border-green-300"
+                  placeholder="input address"
+                />
               </div>
               <div className="flex flex-col w-full mt-8 space-y-4">
                 <h3>Payment Method</h3>

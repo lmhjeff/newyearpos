@@ -1,12 +1,12 @@
 import { groq } from "next-sanity";
-import PreviewSuspense from "../../../components/PreviewSuspense";
-
 import { previewData } from "next/headers";
 import Cart from "../../../components/Cart";
 import Category from "../../../components/Category";
 import PreviewCategory from "../../../components/PreviewCategory";
+import PreviewSuspense from "../../../components/PreviewSuspense";
 import Search from "../../../components/Search";
 import { client } from "../../../lib/sanity.client";
+import { isMobile } from "react-device-detect";
 
 const query = groq`
   *[_type == 'categories'] | order(category asc)
@@ -37,8 +37,8 @@ export default async function RootLayout({
   }
 
   return (
-    <main className="flex flex-row w-full">
-      <div className="flex flex-col w-4/5 p-4 h-screen">
+    <main className={`flex flex-row `}>
+      <div className="flex flex-col w-4/5 p-4">
         <Search />
         <Category category={category} />
         {children}

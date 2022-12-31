@@ -5,6 +5,7 @@ import { Select, Spin } from "antd";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useCartStore from "../app/store";
+import useWindowDimensions from "../hook/useWindowDimension";
 
 type CartInput = {
   products: Product[];
@@ -26,6 +27,7 @@ const Cart = () => {
   const [discountPrice, setDiscountPrice] = useState<number | any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const addressRef = useRef<HTMLInputElement>(null);
+  const { height } = useWindowDimensions();
 
   const {
     register,
@@ -74,7 +76,7 @@ const Cart = () => {
       preOrder: false,
       createdAt: new Date().toISOString(),
       address: addressRef?.current?.value,
-      status: "Completed"
+      status: "Completed",
     };
 
     fetch("/api/createOrder", {
@@ -101,9 +103,9 @@ const Cart = () => {
 
   return (
     <div
-      className={`flex flex-col w-[30%] min-w-[350px] h-screen ${
+      className={`flex flex-col w-[30%] min-w-[350px] m-4 h-[${height}px] ${
         cart.length > 0 ? "items-start" : "justify-center"
-      } p-2 mx-2 pt-16`}
+      } `}
     >
       {cart.length === 0 ? (
         <div className="flex flex-col items-center justify-center bg-[#2d2d2d] h-full rounded-lg">
@@ -115,7 +117,7 @@ const Cart = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div
               {...register("products")}
-              className="flex flex-col items-center space-y-4 w-full h-[350px] overflow-y-scroll scrollbar-none "
+              className="flex flex-col items-center space-y-3 w-full h-[280px] overflow-y-scroll scrollbar-none"
             >
               {cart.length > 0
                 ? cart?.map((item, i) => (
@@ -140,7 +142,7 @@ const Cart = () => {
                   ))
                 : null}
             </div>
-            <div className="flex flex-col w-full justify-between items-center bg-[#2d2d2d] rounded-md h-[380px] absolute bottom-0 p-4 space-y-2">
+            <div className="flex flex-col w-full justify-between items-center bg-[#2d2d2d] rounded-md  absolute bottom-0 p-4 space-y-2">
               <div className="flex flex-col space-y-3 w-full">
                 <div className="flex flex-row w-full justify-between items-center">
                   <p>Subtotal</p>

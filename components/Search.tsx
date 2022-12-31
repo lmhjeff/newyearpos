@@ -1,10 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import useWindowDimensions from "../hook/useWindowDimension";
+import { isMobile } from "react-device-detect";
 
 const Search = () => {
   const [search, setSearch] = useState<string>("");
   const router = useRouter();
+  const { height } = useWindowDimensions();
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

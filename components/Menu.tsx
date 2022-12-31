@@ -5,7 +5,7 @@ const Menu = () => {
   const year = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col min-w-[150px] h-screen text-white items-center p-4">
+    <div className="flex flex-col w-[150px] text-white items-center p-4">
       {/* <div className="w-6 h-6">
         <ShoppingCartIcon />
       </div> */}
@@ -20,7 +20,7 @@ const Menu = () => {
         </div>
       </Link>
       <Navigation />
-      <div className="absolute bottom-4 text-center text-sm">{`© ${year} EXJAPAN SHOPPING LIMITED`}</div>
+      <div className="absolute bottom-4 text-center text-sm w-[150px]">{`© ${year} EXJAPAN SHOPPING LIMITED`}</div>
     </div>
   );
 };

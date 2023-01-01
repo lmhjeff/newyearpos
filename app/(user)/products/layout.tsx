@@ -6,7 +6,7 @@ import PreviewCategory from "../../../components/PreviewCategory";
 import PreviewSuspense from "../../../components/PreviewSuspense";
 import Search from "../../../components/Search";
 import { client } from "../../../lib/sanity.client";
-import { isMobile } from "react-device-detect";
+
 
 const query = groq`
   *[_type == 'categories'] | order(category asc)

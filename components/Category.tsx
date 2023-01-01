@@ -1,36 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-// import { useState } from "react";
-
-const cateType = [
-  {
-    type: "New York Cheese",
-    name: "New York Cheese",
-  },
-  {
-    type: "Tulip Rose",
-    name: "Tulip Rose",
-  },
-  {
-    type: "Audrey",
-    name: "Audrey",
-  },
-  {
-    type: "Butter State",
-    name: "Butter State",
-  },
-  {
-    type: "Tokyo Banana",
-    name: "Tokyo Banana",
-  },
-];
 
 type CategoryProps = {
   category: Category[];
 };
 
 const Category = ({ category }: CategoryProps) => {
-  //   const [cate, setCate] = useState<string>("");
   const router = useRouter();
 
   const handleCategory = (e: string) => {

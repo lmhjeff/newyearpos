@@ -56,3 +56,7 @@ interface Order extends Base {
   remark?: string;
   status: string;
 }
+
+interface Status extends Base {
+  statusField: string;
+}

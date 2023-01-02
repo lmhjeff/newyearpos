@@ -27,7 +27,7 @@ const SearchResult = async ({ params: { searchResult } }: SearchItemProps) => {
 
   return (
     <div
-      className={`flex flex-col space-y-4 py-4 overflow-y-scroll h-[700px] `}
+      className={`flex flex-col space-y-4 py-4 overflow-y-scroll h-[700px] scrollbar-none`}
     >
       <div className="flex flex-row justify-between items-center w-full pl-10 pr-4 py-4 bg-[#2d2d2d] text-gray-300 rounded-lg">
         <div className="w-32">下單日期</div>

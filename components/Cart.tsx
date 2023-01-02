@@ -6,6 +6,7 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useCartStore from "../app/store";
 import useWindowDimensions from "../hook/useWindowDimension";
+import ModalForm from "./ModalForm";
 
 type CartInput = {
   products: Product[];
@@ -28,6 +29,7 @@ const Cart = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const addressRef = useRef<HTMLInputElement>(null);
   const { height } = useWindowDimensions();
+  const [open, setOpen] = useState(false);
 
   const {
     register,
@@ -52,11 +54,12 @@ const Cart = () => {
   }, [subTotal]);
 
   useEffect(() => {
-    console.log("addressRef", addressRef);
-  }, [addressRef]);
+    console.log("open", open);
+  }, [open]);
 
   const onSubmit: SubmitHandler<CartInput> = async (data) => {
-    setLoading(true);
+    console.log(data);
+    // setLoading(true);
     const orderItems = cart.map((item: any) => ({
       _key: item._id,
       name: item.name,
@@ -79,26 +82,32 @@ const Cart = () => {
       status: "Completed",
     };
 
-    fetch("/api/createOrder", {
-      method: "POST",
-      body: JSON.stringify(order),
-    }).then(() => {
-      reset();
-      setDiscount("sellingPrice");
-      setDiscountPrice(0);
-      setLoading(false);
-    });
+    console.log(order);
 
-    fetch("/api/reduceQty", {
-      method: "POST",
-      body: JSON.stringify(orderItems),
-    }).then(() => {
-      console.log("reduced");
-    });
+    // fetch("/api/createOrder", {
+    //   method: "POST",
+    //   body: JSON.stringify(order),
+    // }).then(() => {
+    //   reset();
+    //   setDiscount("sellingPrice");
+    //   setDiscountPrice(0);
+    //   setLoading(false);
+    // });
+
+    // fetch("/api/reduceQty", {
+    //   method: "POST",
+    //   body: JSON.stringify(orderItems),
+    // }).then(() => {
+    //   console.log("reduced");
+    // });
   };
 
   const handleDiscount = (value: string) => {
     setDiscount(value);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
   };
 
   return (
@@ -255,14 +264,27 @@ const Cart = () => {
                 <div className="flex flex-row justify-between items-center space-x-4">
                   <button
                     disabled={loading}
-                    type="submit"
+                    // type="submit"
                     className="bg-green-300 disabled:bg-gray-200 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700"
                   >
                     {loading ? <Spin /> : "Place Order"}
                   </button>
-                  <button className="bg-orange-400 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700">
-                    Pre Order
-                  </button>
+                  <>
+                    <div
+                      onClick={() => setOpen(!open)}
+                      className="bg-orange-400 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700"
+                    >
+                      Pre Order
+                    </div>
+                    {
+                      <ModalForm
+                        open={open}
+                        setOpen={setOpen}
+                        handleCancel={handleCancel}
+                        handleSubmitPreOrder={onSubmit}
+                      />
+                    }
+                  </>
                 </div>
               </div>
             </div>

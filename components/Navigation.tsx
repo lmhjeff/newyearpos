@@ -12,7 +12,7 @@ const menu = [
   },
   {
     name: "Orders",
-    path: "/orders",
+    path: "/orders/All",
   },
   {
     name: "Studio",

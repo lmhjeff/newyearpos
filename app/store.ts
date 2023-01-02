@@ -19,6 +19,8 @@ interface StoreState {
   discount?: number;
   totalPrice: number;
   reset: () => void;
+  storeStatus: string;
+  setStatus: (status: string) => void;
 }
 
 const useCartStore = create<StoreState>()(
@@ -30,6 +32,7 @@ const useCartStore = create<StoreState>()(
         subTotal: 0,
         discount: 0,
         totalPrice: 0,
+        storeStatus: "All",
         add: (item) => {
           const inCart = get().cart.find((exist) =>
             exist._id === item._id ? true : false
@@ -83,6 +86,11 @@ const useCartStore = create<StoreState>()(
             subTotal: 0,
             discount: 0,
             totalPrice: 0,
+          }));
+        },
+        setStatus: (status) => {
+          set((state) => ({
+            storeStatus: status,
           }));
         },
       }),

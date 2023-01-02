@@ -22,7 +22,7 @@ export default async function createOrder(
     await client
       .create({
         _type: "orders",
-        orderId: `exjp-${new Date().toLocaleString().replace(",", "")}`,
+        orderId: `EXJP-${new Date().toLocaleString().replace(",", "")}`,
         orderItems: orderItems,
         subTotal: subTotal,
         discount: discount,

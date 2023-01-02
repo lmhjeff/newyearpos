@@ -13,6 +13,12 @@ const orderStatus: { [key: string]: string } = {
   WaitingForDelivery: "等待發貨",
 };
 
+// const statusColor: { [key: string]: string } = {
+//   Completed: "#6be2a2",
+//   PreOrder: "#FF8F3A",
+//   WaitingForDelivery: "#ff5f5a",
+// };
+
 const CollapseContainer = (order: Order) => {
   const {
     orderId,
@@ -38,10 +44,6 @@ const CollapseContainer = (order: Order) => {
     }
     setCollapse([...collapse, id]);
   };
-
-  useEffect(() => {
-    console.log(collapse);
-  }, [collapse]);
 
   return (
     <div
@@ -70,7 +72,7 @@ const CollapseContainer = (order: Order) => {
             {dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss")}
           </div>
           <div className="flex-1">{orderId}</div>
-          <div className="flex-1">{orderStatus[status]}</div>
+          <div className={`flex-1`}>{orderStatus[status]}</div>
           <div className="flex-1">{total}</div>
           <div className="flex-1">{paymentMethod}</div>
         </div>

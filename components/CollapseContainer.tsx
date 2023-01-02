@@ -1,11 +1,17 @@
+// @ts-noch/eck
 "use client";
 
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import urlFor from "../lib/urlFor";
-
 import Image from "next/image";
+
+const orderStatus: { [key: string]: string } = {
+  Completed: "已完成",
+  PreOrder: "預訂貨品",
+  WaitingForDelivery: "等待發貨",
+};
 
 const CollapseContainer = (order: Order) => {
   const {
@@ -24,7 +30,6 @@ const CollapseContainer = (order: Order) => {
   } = order;
   const [collapse, setCollapse] = useState<string[]>([]);
 
-  console.log("createdAt", dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss"));
   const toggleCollapse = (id: string) => {
     if (collapse.includes(id)) {
       const openCollapse = collapse.filter((order) => order !== id);
@@ -65,7 +70,7 @@ const CollapseContainer = (order: Order) => {
             {dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss")}
           </div>
           <div className="flex-1">{orderId}</div>
-          <div className="flex-1">{status}</div>
+          <div className="flex-1">{orderStatus[status]}</div>
           <div className="flex-1">{total}</div>
           <div className="flex-1">{paymentMethod}</div>
         </div>

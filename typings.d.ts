@@ -57,6 +57,12 @@ interface Order extends Base {
   status: string;
 }
 
+// enum OrderStatus {
+//   Completed = "已完成",
+//   PreOrder = "預訂貨品",
+//   WaitingForDelivery = "等待發貨",
+// }
+
 interface Status extends Base {
   statusField: string;
 }

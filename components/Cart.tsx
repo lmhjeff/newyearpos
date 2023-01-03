@@ -35,6 +35,7 @@ const Cart = () => {
   const { height } = useWindowDimensions();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
+  const [order, setOrder] = useState("");
 
   const {
     register,
@@ -64,6 +65,7 @@ const Cart = () => {
 
   const onSubmit: SubmitHandler<CartInput> = async (data) => {
     setLoading(true);
+    setOrder("order");
     const orderItems = cart.map((item: any) => ({
       _key: item._id,
       name: item.name,
@@ -94,6 +96,7 @@ const Cart = () => {
       setDiscount("sellingPrice");
       setDiscountPrice(0);
       setLoading(false);
+      setOrder("");
     });
 
     fetch("/api/reduceQty", {
@@ -115,6 +118,7 @@ const Cart = () => {
     }
 
     setLoading(true);
+    setOrder("preOrder");
     const orderItems = cart.map((item: any) => ({
       _key: item._id,
       name: item.name,
@@ -148,6 +152,7 @@ const Cart = () => {
       setDiscount("sellingPrice");
       setDiscountPrice(0);
       setLoading(false);
+      setOrder("");
     });
 
     fetch("/api/reduceQty", {
@@ -157,10 +162,15 @@ const Cart = () => {
       console.log("reduced");
     });
 
+    fetch("/api/sendEmail", {
+      method: "POST",
+      body: JSON.stringify(order),
+    }).then(() => {
+      console.log("email sent");
+    });
+
     setError(false);
     setOpen(false);
-
-    console.log("handlePreOrder", order);
   };
 
   const handleDiscount = (value: string) => {
@@ -358,14 +368,14 @@ const Cart = () => {
                     // type="submit"
                     className="bg-green-300 disabled:bg-gray-200 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700"
                   >
-                    {loading ? <Spin /> : "Place Order"}
+                    {loading && order === "order" ? <Spin /> : "Place Order"}
                   </button>
                   <>
                     <div
                       onClick={() => setOpen(!open)}
                       className="bg-orange-400 w-full text-center rounded-3xl p-4 font-semibold text-lg text-gray-700"
                     >
-                      {loading && open ? <Spin /> : "Pre Order"}
+                      {loading && order === "preOrder" ? <Spin /> : "Pre Order"}
                     </div>
                     <ModalForm
                       open={open}

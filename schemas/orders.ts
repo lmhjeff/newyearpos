@@ -71,6 +71,21 @@ export const orders = [
         title: "Status",
         type: "string",
       },
+      {
+        name: "username",
+        title: "Customer Name",
+        type: "string",
+      },
+      {
+        name: "phoneNumber",
+        title: "Phone Number",
+        type: "number",
+      },
+      {
+        name: "email",
+        title: "Email",
+        type: "string",
+      },
     ],
   },
 ];

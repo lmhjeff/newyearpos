@@ -55,6 +55,9 @@ interface Order extends Base {
   address?: string;
   remark?: string;
   status: string;
+  username?: string;
+  phoneNumber?: number;
+  email?: string;
 }
 
 // enum OrderStatus {

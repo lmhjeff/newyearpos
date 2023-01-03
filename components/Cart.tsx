@@ -12,10 +12,10 @@ type CartInput = {
   products: Product[];
   subTotal: number;
   discount: string;
-  discountPrice: number;
   total: number;
   paymentMethod: string;
   address?: string;
+  email: string;
 };
 
 const Cart = () => {
@@ -28,8 +28,13 @@ const Cart = () => {
   const [discountPrice, setDiscountPrice] = useState<number | any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const addressRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const phoneNumberRef = useRef<HTMLInputElement>(null);
+
   const { height } = useWindowDimensions();
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
 
   const {
     register,
@@ -58,8 +63,7 @@ const Cart = () => {
   }, [open]);
 
   const onSubmit: SubmitHandler<CartInput> = async (data) => {
-    console.log(data);
-    // setLoading(true);
+    setLoading(true);
     const orderItems = cart.map((item: any) => ({
       _key: item._id,
       name: item.name,
@@ -73,7 +77,7 @@ const Cart = () => {
       orderItems: orderItems,
       subTotal: subTotal,
       discount: discount,
-      discountPrice: data.discountPrice ?? 0,
+      discountPrice: discountPrice ?? 0,
       paymentMethod: data.paymentMethod,
       total: total,
       preOrder: false,
@@ -82,24 +86,81 @@ const Cart = () => {
       status: "Completed",
     };
 
-    console.log(order);
+    fetch("/api/createOrder", {
+      method: "POST",
+      body: JSON.stringify(order),
+    }).then(() => {
+      reset();
+      setDiscount("sellingPrice");
+      setDiscountPrice(0);
+      setLoading(false);
+    });
 
-    // fetch("/api/createOrder", {
-    //   method: "POST",
-    //   body: JSON.stringify(order),
-    // }).then(() => {
-    //   reset();
-    //   setDiscount("sellingPrice");
-    //   setDiscountPrice(0);
-    //   setLoading(false);
-    // });
+    fetch("/api/reduceQty", {
+      method: "POST",
+      body: JSON.stringify(orderItems),
+    }).then(() => {
+      console.log("reduced");
+    });
+  };
 
-    // fetch("/api/reduceQty", {
-    //   method: "POST",
-    //   body: JSON.stringify(orderItems),
-    // }).then(() => {
-    //   console.log("reduced");
-    // });
+  const handlePreOrder = (data: any) => {
+    if (
+      !usernameRef.current?.value ||
+      !phoneNumberRef.current?.value ||
+      !emailRef.current?.value
+    ) {
+      setError(true);
+      return;
+    }
+
+    setLoading(true);
+    const orderItems = cart.map((item: any) => ({
+      _key: item._id,
+      name: item.name,
+      orderQty: item.orderQty,
+      image: item.image,
+      price: item.price,
+    }));
+
+    const order = {
+      ...data,
+      orderItems: orderItems,
+      subTotal: subTotal,
+      discount: discount,
+      discountPrice: discountPrice ?? 0,
+      paymentMethod: data.paymentMethod,
+      total: total,
+      preOrder: true,
+      createdAt: new Date().toISOString(),
+      address: addressRef?.current?.value,
+      status: "PreOrder",
+      username: usernameRef?.current?.value,
+      phoneNumber: Number(phoneNumberRef?.current?.value),
+      email: emailRef?.current?.value,
+    };
+
+    fetch("/api/createOrder", {
+      method: "POST",
+      body: JSON.stringify(order),
+    }).then(() => {
+      reset();
+      setDiscount("sellingPrice");
+      setDiscountPrice(0);
+      setLoading(false);
+    });
+
+    fetch("/api/reduceQty", {
+      method: "POST",
+      body: JSON.stringify(orderItems),
+    }).then(() => {
+      console.log("reduced");
+    });
+
+    setError(false);
+    setOpen(false);
+
+    console.log("handlePreOrder", order);
   };
 
   const handleDiscount = (value: string) => {
@@ -124,10 +185,7 @@ const Cart = () => {
       ) : (
         <div className="flex flex-col items-center w-full pb-2 h-full overflow-scroll relative">
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-            <div
-              {...register("products")}
-              className="flex flex-col items-center space-y-3 w-full h-[280px] overflow-y-scroll scrollbar-none"
-            >
+            <div className="flex flex-col items-center space-y-3 w-full h-[230px] overflow-y-scroll scrollbar-none">
               {cart.length > 0
                 ? cart?.map((item, i) => (
                     <div
@@ -180,12 +238,11 @@ const Cart = () => {
                   />
 
                   <input
-                    {...register("discountPrice")}
                     id="discountPrice"
                     onChange={(e) => setDiscountPrice(e.target.value)}
                     className="bg-transparent w-[100px] p-2 border-[1px] border-white rounded-lg text-right"
                     defaultValue={0}
-                    type="number"
+                    // type="number"
                   />
                 </div>
                 <hr className="border-dashed border-1 border-white w-full" />
@@ -215,7 +272,7 @@ const Cart = () => {
                         {...register("paymentMethod", { required: true })}
                         id="cash"
                         type="radio"
-                        value="cash"
+                        value="CASH"
                         name="paymentMethod"
                         className="peer text-black hidden"
                       />
@@ -224,7 +281,7 @@ const Cart = () => {
                         htmlFor="cash"
                         className="flex cursor-pointer border-white border-[1px] justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
                       >
-                        Cash
+                        CASH
                       </label>
                     </li>
                     <li className="relative">
@@ -232,7 +289,7 @@ const Cart = () => {
                         {...register("paymentMethod", { required: true })}
                         id="payme"
                         type="radio"
-                        value="payme"
+                        value="PAYME"
                         name="paymentMethod"
                         className="peer text-black hidden"
                       />
@@ -240,7 +297,7 @@ const Cart = () => {
                         htmlFor="payme"
                         className="flex cursor-pointer border-white border-[1px]  justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
                       >
-                        Payme
+                        PAYME
                       </label>
                     </li>
                     <li className="relative">
@@ -248,7 +305,7 @@ const Cart = () => {
                         {...register("paymentMethod", { required: true })}
                         id="fps"
                         type="radio"
-                        value="fps"
+                        value="FPS"
                         name="paymentMethod"
                         className="peer text-black hidden"
                       />
@@ -257,6 +314,40 @@ const Cart = () => {
                         className="flex cursor-pointer border-white border-[1px]  justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
                       >
                         FPS
+                      </label>
+                    </li>
+                    <li className="relative grow">
+                      <input
+                        {...register("paymentMethod", { required: true })}
+                        id="octopus"
+                        type="radio"
+                        value="OCTOPUS"
+                        name="paymentMethod"
+                        className="peer text-black hidden"
+                      />
+
+                      <label
+                        htmlFor="octopus"
+                        className="flex cursor-pointer border-white border-[1px] justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
+                      >
+                        OCTOPUS
+                      </label>
+                    </li>
+                    <li className="relative grow">
+                      <input
+                        {...register("paymentMethod", { required: true })}
+                        id="tapgo"
+                        type="radio"
+                        value="TAPGO"
+                        name="paymentMethod"
+                        className="peer text-black hidden"
+                      />
+
+                      <label
+                        htmlFor="tapgo"
+                        className="flex cursor-pointer border-white border-[1px] justify-center items-center px-4 py-2 rounded-lg w-full peer-checked:bg-white peer-checked:text-black text-lg  "
+                      >
+                        TAPnGO
                       </label>
                     </li>
                   </ul>
@@ -272,18 +363,20 @@ const Cart = () => {
                   <>
                     <div
                       onClick={() => setOpen(!open)}
-                      className="bg-orange-400 w-full rounded-3xl p-4 font-semibold text-lg text-gray-700"
+                      className="bg-orange-400 w-full text-center rounded-3xl p-4 font-semibold text-lg text-gray-700"
                     >
-                      Pre Order
+                      {loading && open ? <Spin /> : "Pre Order"}
                     </div>
-                    {
-                      <ModalForm
-                        open={open}
-                        setOpen={setOpen}
-                        handleCancel={handleCancel}
-                        handleSubmitPreOrder={onSubmit}
-                      />
-                    }
+                    <ModalForm
+                      open={open}
+                      setOpen={setOpen}
+                      usernameRef={usernameRef}
+                      phoneNumberRef={phoneNumberRef}
+                      emailRef={emailRef}
+                      error={error}
+                      handleCancel={handleCancel}
+                      handleSubmitPreOrder={handleSubmit(handlePreOrder)}
+                    />
                   </>
                 </div>
               </div>

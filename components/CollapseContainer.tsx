@@ -33,6 +33,9 @@ const CollapseContainer = (order: Order) => {
     address,
     remark,
     status,
+    username,
+    phoneNumber,
+    email,
   } = order;
   const [collapse, setCollapse] = useState<string[]>([]);
 
@@ -54,7 +57,7 @@ const CollapseContainer = (order: Order) => {
       } rounded-lg`}
     >
       <div
-        className={`flex flex-row w-full items-center ${
+        className={`flex flex-row w-full items-center rounded-lg ${
           collapse.includes(orderId)
             ? "bg-[#65dce1] text-gray-900"
             : "bg-transparent"
@@ -84,7 +87,19 @@ const CollapseContainer = (order: Order) => {
       >
         <div className="flex flex-col justify-center items-center w-1/2 p-4 space-y-3">
           <div className="flex flex-row w-full justify-between">
-            <div>客人備註：</div>
+            <div>客人姓名:</div>
+            <div>{username}</div>
+          </div>
+          <div className="flex flex-row w-full justify-between">
+            <div>電話號碼:</div>
+            <div>{phoneNumber}</div>
+          </div>
+          <div className="flex flex-row w-full justify-between">
+            <div>電郵:</div>
+            <div>{email}</div>
+          </div>
+          <div className="flex flex-row w-full justify-between">
+            <div>客人備註:</div>
             <div>{remark}</div>
           </div>
           <div className="flex flex-row w-full justify-between">

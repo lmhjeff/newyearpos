@@ -16,6 +16,9 @@ export default async function createOrder(
     createdAt,
     address,
     status,
+    username,
+    phoneNumber,
+    email,
   } = JSON.parse(req.body);
 
   try {
@@ -33,6 +36,9 @@ export default async function createOrder(
         createdAt: createdAt,
         address: address,
         status: status,
+        username: username,
+        phoneNumber: phoneNumber,
+        email: email,
       })
       .then((res) => {
         console.log("Whole lot of stuff just happened", res);

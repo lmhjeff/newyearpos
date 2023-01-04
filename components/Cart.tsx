@@ -144,10 +144,11 @@ const Cart = () => {
       email: emailRef?.current?.value,
     };
 
-    fetch("/api/createOrder", {
+    fetch("/api/createPreOrder", {
       method: "POST",
       body: JSON.stringify(order),
-    }).then(() => {
+    }).then((res) => {
+      console.log("res", res);
       reset();
       setDiscount("sellingPrice");
       setDiscountPrice(0);
@@ -155,19 +156,19 @@ const Cart = () => {
       setOrder("");
     });
 
-    fetch("/api/reduceQty", {
-      method: "POST",
-      body: JSON.stringify(orderItems),
-    }).then(() => {
-      console.log("reduced");
-    });
+    // fetch("/api/reduceQty", {
+    //   method: "POST",
+    //   body: JSON.stringify(orderItems),
+    // }).then(() => {
+    //   console.log("reduced");
+    // });
 
-    fetch("/api/sendEmail", {
-      method: "POST",
-      body: JSON.stringify(order),
-    }).then(() => {
-      console.log("email sent");
-    });
+    // fetch("/api/sendEmail", {
+    //   method: "POST",
+    //   body: JSON.stringify(order),
+    // }).then(() => {
+    //   console.log("email sent");
+    // });
 
     setError(false);
     setOpen(false);

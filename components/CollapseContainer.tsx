@@ -103,7 +103,7 @@ const CollapseContainer = (order: Order) => {
             <div>{remark}</div>
           </div>
           <div className="flex flex-row w-full justify-between">
-            <div className="flex-1">地址：</div>
+            <div className="flex-1">送貨地址:</div>
             <div className="flex justify-end break-words w-3/4">{address}</div>
           </div>
           <h1 className="w-full text-2xl font-semibold">已購產品</h1>

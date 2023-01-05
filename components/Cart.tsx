@@ -1,9 +1,10 @@
 "use client";
 
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
-import { Select, Spin } from "antd";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { Select, Spin, message } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
 import useCartStore from "../app/store";
 import useWindowDimensions from "../hook/useWindowDimension";
 import ModalForm from "./ModalForm";
@@ -36,6 +37,7 @@ const Cart = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [order, setOrder] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
 
   const {
     register,
@@ -59,9 +61,6 @@ const Cart = () => {
     setTotal(subTotal);
   }, [subTotal]);
 
-  useEffect(() => {
-    console.log("open", open);
-  }, [open]);
 
   const onSubmit: SubmitHandler<CartInput> = async (data) => {
     setLoading(true);
@@ -92,6 +91,7 @@ const Cart = () => {
       method: "POST",
       body: JSON.stringify(order),
     }).then(() => {
+      message.success("💰Place Order Successfully!");
       reset();
       setDiscount("sellingPrice");
       setDiscountPrice(0);
@@ -148,27 +148,13 @@ const Cart = () => {
       method: "POST",
       body: JSON.stringify(order),
     }).then((res) => {
-      console.log("res", res);
+      message.success("✉️Email Sent!");
       reset();
       setDiscount("sellingPrice");
       setDiscountPrice(0);
       setLoading(false);
       setOrder("");
     });
-
-    // fetch("/api/reduceQty", {
-    //   method: "POST",
-    //   body: JSON.stringify(orderItems),
-    // }).then(() => {
-    //   console.log("reduced");
-    // });
-
-    // fetch("/api/sendEmail", {
-    //   method: "POST",
-    //   body: JSON.stringify(order),
-    // }).then(() => {
-    //   console.log("email sent");
-    // });
 
     setError(false);
     setOpen(false);

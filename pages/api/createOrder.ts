@@ -41,7 +41,7 @@ export default async function createOrder(
         email: email,
       })
       .then((res) => {
-        console.log("Whole lot of stuff just happened", res);
+        console.log("Order Created", res);
       });
   } catch (err) {
     console.log("Transaction failed: ", err);

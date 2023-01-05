@@ -99,6 +99,10 @@ const CollapseContainer = (order: Order) => {
             <div>{email}</div>
           </div>
           <div className="flex flex-row w-full justify-between">
+            <div>付款方式::</div>
+            <div>{paymentMethod}</div>
+          </div>
+          <div className="flex flex-row w-full justify-between">
             <div>客人備註:</div>
             <div>{remark}</div>
           </div>

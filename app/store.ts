@@ -1,14 +1,5 @@
-import { devtools, persist } from "zustand/middleware";
 import create from "zustand";
-import Orders from "./(user)/orders/page";
-import { CartSlice, createCartSlice } from "../lib/slices/createCartSlice";
-import {
-  CategorySlice,
-  createCategorySlice,
-} from "../lib/slices/createCategorySlice";
-
-// type StoreState = CategorySlice & CartSlice;
-
+import { devtools, persist } from "zustand/middleware";
 interface StoreState {
   cart: Item[];
   add: (item: Item) => void;
@@ -100,10 +91,5 @@ const useCartStore = create<StoreState>()(
     )
   )
 );
-
-// export const useCartStore = create<StoreState>((...a) => ({
-//   ...createCartSlice(...a),
-//   ...createCategorySlice(...a),
-// }));
 
 export default useCartStore;

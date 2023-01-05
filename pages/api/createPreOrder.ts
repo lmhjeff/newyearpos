@@ -93,70 +93,120 @@ export default async function createPreOrder(
         // `;
 
         const htmlContent = `
-      <div style="display:flex; flex-direction:column; justify-content: center; align-items: center; width: 50%; padding: 1rem; margin-top: 0.75rem; margin-top: 0.875rem; ">
-        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
-          <div>客人姓名:</div>
-          <div>${username}</div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
-          <div>電話號碼:</div>
-          <div>${phoneNumber}</div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
-          <div>電郵:</div>
-          <div>${email}</div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
-          <div style="flex: 1 1 0%; ">送貨地址:</div>
-          <div style="display: flex; overflow-wrap: break-word; justify-content: flex-end; width: 75%; ">${address}</div>
-        </div>
-        <h1 style="font-size: 1.5rem; line-height: 2rem; font-weight: 600; width: 100%;">已購產品</h1>
-        <div style="display: flex; margin-top: 1rem; flex-direction: column; width: 100%; border-top-width: 1px;">
-          ${orderItems.map(
-            (item: OrderItem) =>
-              `<div style="display: flex; padding-top: 1rem; flex-direction: row; justify-content: space-between; width: 100%;">
-              <img src="${urlFor(item.image).url()}" width="128" height="128" />
+        <div style="display:flex; flex-direction:column; background: #84d8ff; justify-content: center; align-items: center;">
+          <div style="display:flex; flex-direction:column; justify-content: center; align-items: center; background: #ffffff; width: 75%; padding: 1rem; margin-top: 0.75rem; margin-top: 0.875rem;">
+            <div>
+              <a href="https://exjapanshopping.boutir.com/">
+                <img src="https://img.boutirapp.com/i/EfheqyWX8Af9PrxnbC5DVwrd0UVq9yi5Hw8D0BjE93W=sxs" width="50" height="50" />
+              </a>
+            </div>
 
-              <div style="display: flex; justify-content: center; align-items: center;">
-                ${item.name}
+            <h2 style="font-size: 1.5rem; color: #84d8ff; ">EX JAPAN 日本代購已經收到你的訂單</h2>
+
+            <div style="margin: 4px 4px;">感謝你的訂購。你可在下面找到有關是次訂購的詳情：</div>
+
+            <div style="display:flex; flex-direction:column; width: 100%;">
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div>訂單號碼:</div>
+                <div style="font-size: 1.5rem;">${orderId}</div>
               </div>
-              <div style="display: flex; margin-top: 1.5rem; flex-direction: column; justify-content: center; align-items: flex-end;">
-                <div>x ${item.orderQty}</div>
-                <div>HKD ${item.price}</div>
+
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div>收件人姓名:</div>
+                <div>${username}</div>
               </div>
-            </div>`
-          )}
-          <div style="display: flex; padding-top: 0.5rem; margin-top: 0.75rem; margin-top: 0.875rem; flex-direction: column; justify-content: space-between; 
-            align-items: flex-end; width: 100%;">
-            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 50%;">
-              <div>小計</div>
-              <div>HKD ${subTotal}</div>
+
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div>電話號碼:</div>
+                <div>${phoneNumber}</div>
+              </div>
+
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div>電郵:</div>
+                <div>${email}</div>
+              </div>
+
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div>付款方式:</div>
+                <div>${paymentMethod}</div>
+              </div>
+
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div style="flex: 1 1 0%; ">送貨地址:</div>
+                <div style="display: flex; overflow-wrap: break-word; justify-content: flex-end; width: 75%; ">${address}</div>
+              </div>
+
+              <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+                <div>預計發貨日期:</div>
+                <div>2023-01-19</div>
+              </div>
             </div>
-            <div style="display: flex; flex-direction: row; justify-content: space-between; width: 50%;">
-              <div>${discount === "percentage" ? "折扣%" : "折扣價"}</div>
-              <div style="color: #EF4444; ">
-                ${
-                  discount === "percentage"
-                    ? `x ${discountPrice}`
-                    : `HKD -${discountPrice}`
-                }
+           
+            <div style="display:flex; flex-direction:column; width: 100%;">
+              <h1 style="font-size: 1.5rem; line-height: 2rem; font-weight: 600; width: 100%;">已購產品</h1>
+              <div style="display: flex; margin-top: 1rem; flex-direction: column; width: 100%; border-top-width: 1px;">
+                ${orderItems.map(
+                  (item: OrderItem) =>
+                    `<div style="display: flex; padding-top: 1rem; flex-direction: row; justify-content: space-between; width: 100%;">
+                      <img style="object-fit: cover;" src="${urlFor(
+                        item.image
+                      ).url()}" width="128" height="128" />
+
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                        ${item.name}
+                      </div>
+                      <div style="display: flex; margin-top: 1.5rem; flex-direction: column; justify-content: center; align-items: flex-end;">
+                        <div>x ${item.orderQty}</div>
+                        <div>HKD ${item.price}</div>
+                      </div>
+                  </div>`
+                )}
+                <div style="display: flex; padding-top: 0.5rem; margin-top: 0.75rem; margin-top: 0.875rem; flex-direction: column; justify-content: space-between; 
+                  align-items: flex-end; width: 100%;">
+                  <div style="display: flex; flex-direction: row; justify-content: space-between; width: 50%;">
+                    <div>小計</div>
+                    <div>HKD ${subTotal}</div>
+                  </div>
+
+                  <div style="display: flex; flex-direction: row; justify-content: space-between; width: 50%;">
+                    <div>${discount === "percentage" ? "折扣%" : "折扣價"}</div>
+                    <div style="color: #EF4444; ">
+                      ${
+                        discount === "percentage"
+                          ? `x ${discountPrice}`
+                          : `HKD -${discountPrice}`
+                      }
+                    </div>
+                  </div>
+
+                  <div style="display: flex; font-size: 1.25rem; line-height: 1.75rem; font-weight: 800; 
+                    flex-direction: row; justify-content: space-between; width: 50%;">
+                    <div>總數</div>
+                    <div>HKD ${total}</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div style="display: flex; font-size: 1.25rem; line-height: 1.75rem; font-weight: 800; 
-              flex-direction: row; justify-content: space-between; width: 50%;">
-              <div>總數</div>
-              <div>HKD ${total}</div>
+            <div>
+              <p style="line-height: 2;">
+              如你對賣家有任何查詢，可電郵賣家至  <a style="color: #84d8ff;" href="mailto:exjapanshopping@gmail.com">exjapanshopping@gmail.com</a>
+
+              瀏覽網頁時遇上問題嗎? 請回應此電郵，我們會儘快答覆。
+              
+              購物愉快
+              
+              祝好
+              </p>
             </div>
           </div>
         </div>
-    </div>
   `;
 
         const msg = {
           to: `${email}`,
           from: "exjapanshopping@gmail.com", // Use the email address or domain you verified above
           subject: `EX JAPAN 日本代購 - 新年送禮預訂`,
-          text: "and easy to do anywhere, even with Node.js",
+          text: "hi",
           html: htmlContent,
         };
 

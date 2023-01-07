@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { client } from "../../lib/sanity.client";
 
@@ -25,11 +26,11 @@ export default async function createOrder(
     await client
       .create({
         _type: "orders",
-        orderId: `EXJP-${new Date().toLocaleString().replace(",", "")}`,
+        orderId: `EXJP-${dayjs(new Date()).format("YYYY/MM/DD HH:mm:ss")}`,
         orderItems: orderItems,
         subTotal: subTotal,
         discount: discount,
-        discountPrice: discountPrice ?? 0, //string
+        discountPrice: discountPrice.toString() ?? "0", //string
         paymentMethod: paymentMethod,
         total: +total.toFixed(2), //+make string to number
         preOrder: preOrder,

@@ -2,6 +2,7 @@
 
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
 import { Select, Spin, message } from "antd";
+import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -61,7 +62,6 @@ const Cart = () => {
     setTotal(subTotal);
   }, [subTotal]);
 
-
   const onSubmit: SubmitHandler<CartInput> = async (data) => {
     setLoading(true);
     setOrder("order");
@@ -78,7 +78,7 @@ const Cart = () => {
       orderItems: orderItems,
       subTotal: subTotal,
       discount: discount,
-      discountPrice: discountPrice ?? 0,
+      discountPrice: discountPrice ?? "0",
       paymentMethod: data.paymentMethod,
       total: total,
       preOrder: false,

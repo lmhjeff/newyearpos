@@ -14,7 +14,7 @@ const Card = (product: Product) => {
   return (
     <div
       key={_id}
-      className="flex flex-col justify-start w-full h-60 max-w-sm rounded-lg shadow-md bg-[#2d2d2d] border-gray-700"
+      className="flex flex-col justify-between w-full max-h-80 max-w-sm rounded-lg shadow-md bg-[#2d2d2d] border-gray-700"
     >
       <div className="relative w-full h-36 drop-shadow-xl ">
         <Image
@@ -27,7 +27,7 @@ const Card = (product: Product) => {
         />
       </div>
       <div className="px-3 mt-2">
-        <h5 className="text-lg font-semibold tracking-tighttext-white">
+        <h5 className="text-md font-semibold tracking-tighttext-white">
           {name}
         </h5>
         <p className="text-md text-gray-400">Qty: {quantity}</p>

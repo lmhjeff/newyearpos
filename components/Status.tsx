@@ -17,7 +17,7 @@ const Status = ({ status }: StatusProps) => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-28">
       <div className="w-full text-4xl font-extrabold pb-6">{storeStatus}</div>
       <div className="flex flex-row items-center justify-start w-full space-x-4">
         {status.map((sta, i) => (

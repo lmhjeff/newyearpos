@@ -53,7 +53,11 @@ const CollapseContainer = (order: Order) => {
       key={orderId}
       onClick={() => toggleCollapse(orderId)}
       className={`flex flex-col justify-between items-center text-white text-lg border-[1px] ${
-        preOrder ? "border-orange-300" : "border-green-400"
+        status === "PreOrder"
+          ? "border-orange-300"
+          : status === "Completed"
+          ? "border-green-400"
+          : "border-red-400"
       } rounded-lg`}
     >
       <div

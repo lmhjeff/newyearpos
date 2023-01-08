@@ -30,7 +30,9 @@ export default async function createPreOrder(
     await client
       .create({
         _type: "orders",
-        orderId: `EXJP-${new Date().toLocaleString().replace(",", "")}`,
+        orderId: `EXJP-${dayjs(new Date().toISOString()).format(
+          "YYYY/MM/DD HH:mm:ss"
+        )}`,
         orderItems: orderItems,
         subTotal: subTotal,
         discount: discount,

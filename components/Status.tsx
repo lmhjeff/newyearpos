@@ -3,11 +3,23 @@
 import { useRouter } from "next/navigation";
 import useCartStore from "../app/store";
 
-type StatusProps = {
-  status: Status[];
-};
 
-const Status = ({ status }: StatusProps) => {
+const status = [
+  {
+    statusField: "All",
+  },
+  {
+    statusField: "Completed",
+  },
+  {
+    statusField: "PreOrder",
+  },
+  {
+    statusField: "WaitingForDelivery",
+  },
+];
+
+const Status = () => {
   const router = useRouter();
   const { storeStatus, setStatus } = useCartStore();
 

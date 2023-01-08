@@ -26,7 +26,9 @@ export default async function createOrder(
     await client
       .create({
         _type: "orders",
-        orderId: `EXJP-${dayjs(new Date()).format("YYYY/MM/DD HH:mm:ss")}`,
+        orderId: `EXJP-${dayjs(new Date().toISOString()).format(
+          "YYYY/MM/DD HH:mm:ss"
+        )}`,
         orderItems: orderItems,
         subTotal: subTotal,
         discount: discount,

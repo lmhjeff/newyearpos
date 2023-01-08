@@ -1,10 +1,11 @@
 "use client";
 
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
-import { Select, Spin, message, Switch } from "antd";
+import { Select, Spin, message } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Switch from "react-switch";
 
 import useCartStore from "../app/store";
 import useWindowDimensions from "../hook/useWindowDimension";
@@ -168,6 +169,9 @@ const Cart = () => {
     setOpen(false);
   };
 
+  const switchOnText = <div className="text-white w-40">等候發貨</div>;
+  const switchOffText = <div className="text-white w-48">已完成</div>;
+
   return (
     <div
       className={`flex flex-col w-[30%] min-w-[350px] m-4 h-[${height}px] ${
@@ -249,9 +253,13 @@ const Cart = () => {
                 </div>
                 <div>
                   <Switch
+                    width={90}
+                    onColor="#86d3ff"
+                    onHandleColor="#2693e6"
+                    checked={checked}
                     onChange={() => setChecked(!checked)}
-                    checkedChildren="Waiting for delivery"
-                    unCheckedChildren="Completed"
+                    checkedIcon={switchOnText}
+                    uncheckedIcon={switchOffText}
                   />
                 </div>
 

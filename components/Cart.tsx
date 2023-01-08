@@ -1,7 +1,7 @@
 "use client";
 
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
-import { Select, Spin, message } from "antd";
+import { Select, Spin, message, Switch } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -38,7 +38,7 @@ const Cart = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [order, setOrder] = useState("");
-  const [messageApi, contextHolder] = message.useMessage();
+  const [checked, setChecked] = useState(false);
 
   const {
     register,
@@ -84,7 +84,7 @@ const Cart = () => {
       preOrder: false,
       createdAt: new Date().toISOString(),
       address: addressRef?.current?.value,
-      status: "Completed",
+      status: checked ? "WaitingForDelivery" : "Completed",
     };
 
     fetch("/api/createOrder", {
@@ -246,6 +246,13 @@ const Cart = () => {
                 <div className="flex flex-row w-full justify-between items-center my-2 text-3xl font-semibold">
                   <p>Total</p>
                   <p>${total?.toFixed(2)}</p>
+                </div>
+                <div>
+                  <Switch
+                    onChange={() => setChecked(!checked)}
+                    checkedChildren="Waiting for delivery"
+                    unCheckedChildren="Completed"
+                  />
                 </div>
 
                 <input

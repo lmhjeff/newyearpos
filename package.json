@@ -25,6 +25,7 @@
     "sanity": "^3.0.0",
     "short-uuid": "^4.2.2",
     "styled-components": "^5.2.0",
+    "vercel": "^28.10.3",
     "zustand": "^4.1.5"
   },
   "devDependencies": {

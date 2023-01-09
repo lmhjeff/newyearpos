@@ -133,7 +133,7 @@ const Cart = () => {
       orderItems: orderItems,
       subTotal: subTotal,
       discount: discount,
-      discountPrice: discountPrice ?? 0,
+      discountPrice: discountPrice ?? "0",
       paymentMethod: data.paymentMethod,
       total: total,
       preOrder: true,
@@ -401,5 +401,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
-

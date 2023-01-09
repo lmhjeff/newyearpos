@@ -3,18 +3,21 @@
 import { useRouter } from "next/navigation";
 import useCartStore from "../app/store";
 
-
 const status = [
   {
+    label: "全部",
     statusField: "All",
   },
   {
+    label: "已完成",
     statusField: "Completed",
   },
   {
+    label: "預訂貨品",
     statusField: "PreOrder",
   },
   {
+    label: "等待發貨",
     statusField: "WaitingForDelivery",
   },
 ];
@@ -38,7 +41,7 @@ const Status = () => {
             onClick={() => handleFilter(sta.statusField)}
             className="px-4 py-2 text-center font-semibold border-2 rounded-lg cursor-pointer"
           >
-            {sta.statusField}
+            {sta.label}
           </div>
         ))}
       </div>

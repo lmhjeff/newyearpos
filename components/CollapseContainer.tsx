@@ -78,10 +78,8 @@ const CollapseContainer = (order: Order) => {
           <div className="w-32">
             {dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss")}
           </div>
-          <div className="flex-1">
-            {dayjs(orderId).format("YYYY/MM/DD HH:mm:ss")}
-          </div>
-          <div className={`flex-1`}>{orderStatus[status]}</div>
+          <div className="w-40 break-words mr-9">{orderId}</div>
+          <div className="flex-1">{orderStatus[status]}</div>
           <div className="flex-1">{total}</div>
           <div className="flex-1">{paymentMethod}</div>
         </div>

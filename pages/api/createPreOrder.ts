@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { client } from "../../lib/sanity.client";
 import urlFor from "../../lib/urlFor";
+import uuid from "short-uuid";
 
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -30,13 +31,11 @@ export default async function createPreOrder(
     await client
       .create({
         _type: "orders",
-        orderId: `EXJP-${dayjs(new Date().toISOString()).format(
-          "YYYY/MM/DD HH:mm:ss"
-        )}`,
+        orderId: uuid.generate(),
         orderItems: orderItems,
         subTotal: subTotal,
         discount: discount,
-        discountPrice: discountPrice ?? 0, //string
+        discountPrice: discountPrice ?? "0", //string
         paymentMethod: paymentMethod,
         total: +total.toFixed(2), //+make string to number
         preOrder: preOrder,

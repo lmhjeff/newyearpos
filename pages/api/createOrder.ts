@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { client } from "../../lib/sanity.client";
+import uuid from "short-uuid";
 
 export default async function createOrder(
   req: NextApiRequest,
@@ -26,9 +27,7 @@ export default async function createOrder(
     await client
       .create({
         _type: "orders",
-        orderId: `EXJP-${dayjs(new Date().toISOString()).format(
-          "YYYY/MM/DD HH:mm:ss"
-        )}`,
+        orderId: uuid.generate(),
         orderItems: orderItems,
         subTotal: subTotal,
         discount: discount,

@@ -1,7 +1,20 @@
+import { groq } from "next-sanity";
 import { previewData } from "next/headers";
 import PreviewSuspense from "../../components/PreviewSuspense";
+import { client } from "../../lib/sanity.client";
+
+const todayQuery = groq`
+  math::sum(*[_type == "orders" && _createdAt >= "2023-01-10T16:00:00.000Z"][].total)
+`;
+
+const totalQuery = groq`
+  math::sum(*[_type == "orders"][].total)
+`;
 
 const Home = async () => {
+  const today = await client.fetch(todayQuery);
+  const all = await client.fetch(totalQuery);
+
   // if (previewData()) {
   //   return (
   //     <PreviewSuspense
@@ -20,7 +33,12 @@ const Home = async () => {
   // }
   return (
     <div className="text-white">
-      I am Home page NewYearPos!!!! Not in preview mode
+      <div>
+          <h1>All:</h1>
+        <h1>{all}</h1>
+        <h1>Today:</h1>
+        <h1>{today}</h1>
+      </div>
     </div>
   );
 };

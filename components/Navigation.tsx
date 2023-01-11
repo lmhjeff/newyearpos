@@ -7,12 +7,20 @@ import path from "path";
 
 const menu = [
   {
+    name: "Dashboard",
+    path: "/",
+  },
+  {
     name: "Products",
     path: "/products",
   },
   {
     name: "Orders",
     path: "/orders/All",
+  },
+  {
+    name: "Stocks",
+    path: "/stocks",
   },
   {
     name: "Studio",

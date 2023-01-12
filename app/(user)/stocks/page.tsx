@@ -28,34 +28,41 @@ const Stocks = async () => {
   );
   // { ...current, orderQty: current.orderQty + acc.orderQty }
   const sorted = newArr.reduce((acc: any, current: any) => {
-    // let obj = acc.find((item: any) => item._key === current._key);
-    // if (!obj) {
-    //   const newCurr = {
-    //     name: current.name,
-    //     orderQty: current.orderQty,
-    //   };
-    //   console.log("newCurr", newCurr);
+    let obj = acc.find((item: any) => item._key === current._key);
+    console.log("obj", obj);
+    if (!obj) {
+      const newCurr = {
+        name: current.name,
+        orderQty: current.orderQty,
+      };
 
-    //   return acc.concat([newCurr]);
-    // } else {
-    //   console.log("else");
-    //   const newData = {
-    //     name: current.name,
-    //     orderQty: current.orderQty + acc.orderQty,
-    //   };
+      console.log("newCurr", newCurr);
 
-    //   return acc.concat([newData]);
-    // return acc.concat([current]);
-    const name = current.name;
-    if (acc[name]) {
-      acc[name]++;
+      return acc.concat([newCurr]);
     } else {
-      acc[name] = 1;
+      console.log("else");
+      const newData = {
+        name: current.name,
+        orderQty: current.orderQty + acc.orderQty,
+      };
+
+      return acc.concat([newData]);
     }
-    return acc;
-  }, {});
+  }, []);
+
+  //it's work, but not perfect
+  //   const sorted = newArr.reduce((acc:any, current:any) => {
+  //        const name = current.name;
+  //     if (acc[name]) {
+  //       acc[name]++;
+  //     } else {
+  //       acc[name] = 1;
+  //     }
+  //     return acc;
+  //   }, [])
+
   console.log("sorted", sorted);
-  //   console.log("sorted", sorted);
+  
   return <div>{JSON.stringify(purchasedItems)}</div>;
 };
 

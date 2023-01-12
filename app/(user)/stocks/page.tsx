@@ -26,17 +26,29 @@ const Stocks = async () => {
   purchasedItems.map((item: IOrderItems) =>
     item.orderItems.forEach((i: IOrderItems) => newArr.push(i))
   );
+  // { ...current, orderQty: current.orderQty + acc.orderQty }
+  const sorted = newArr.reduce((acc: any, current: any) => {
+    let obj = acc.find((item: any) => item._key === current._key);
+    if (!obj) {
+      const newCurr = {
+        name: current.name,
+        orderQty: current.orderQty,
+      };
+      console.log("newCurr", newCurr);
 
-  const sorted = newArr.reduce((acc: any, item: any) => {
-    // const obj = {};
-    // const newObj = {
-    //   ...obj,
-    //   name: acc[item.name],
-    //   orderQty: acc + item.orderQty,
-    // };
-    // console.log(11111, newObj);
+      return acc.concat([newCurr]);
+    } else {
+      console.log("else");
+      const newData = {
+        name: current.name,
+        orderQty: current.orderQty + acc.orderQty,
+      };
+
+      return acc.concat([newData]);
+      // return acc.concat([current]);
+    }
   }, []);
-  console.log("newArr", newArr);
+  console.log("sorted", sorted);
   //   console.log("sorted", sorted);
   return <div>{JSON.stringify(purchasedItems)}</div>;
 };

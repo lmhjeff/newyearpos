@@ -1,4 +1,5 @@
 import { groq } from "next-sanity";
+import DatePicker from "../../../components/DatePicker";
 import { client } from "../../../lib/sanity.client";
 
 interface IOrderItems {
@@ -10,7 +11,7 @@ interface IOrderItems {
 }
 
 const query = groq`
-    *[_type == "orders" && _createdAt >= "2023-01-10T16:00:00.000Z"]{
+    *[_type == "orders" && _createdAt >= "2023-01-13T16:00:00.000Z"]{
         orderItems[] {
         _key,
         name,
@@ -46,8 +47,31 @@ const Stocks = async () => {
 
   console.log("sorted", sorted);
   console.log("newArr", newArr);
+  console.log("purchasedItems", purchasedItems);
 
-  return <div>{JSON.stringify(sorted)}</div>;
+  return (
+    <div className="flex flex-col w-full p-4">
+      <DatePicker />
+      <div className="flex flex-row justify-between items-center p-4 bg-[#2d2d2d] text-gray-300 rounded-lg">
+        <div className="w-52">貨物名稱</div>
+        <div className="">單價</div>
+        <div className="w-12">賣出數量</div>
+        <div>賣出總金額</div>
+      </div>
+      <div className="flex flex-col space-y-4">
+        {sorted.map((item: IOrderItems) => (
+          <div className="flex flex-row  text-gray-200 p-3 text-xl justify-between items-center rounded-lg shadow-md">
+            <div className="w-52 break-words">{item.name}</div>
+            <div>HKD {item.price}</div>
+
+            <div className="w-10">x{item.orderQty}</div>
+
+            <div>HKD {item.orderQty * item.price}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Stocks;

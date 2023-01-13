@@ -42,43 +42,23 @@ const Stocks = async () => {
     }
 
     return acc;
-    // let obj = acc.find((item: any) => item._key === current._key);
-    // console.log("obj", obj);
-    // if (!obj) {
-    //   const newCurr = {
-    //     name: current.name,
-    //     orderQty: current.orderQty,
-    //   };
-
-    //   console.log("newCurr", newCurr);
-
-    //   return acc.concat([newCurr]);
-    // } else {
-    //   console.log("else");
-    //   const newData = {
-    //     name: current.name,
-    //     orderQty: current.orderQty + acc.orderQty,
-    //   };
-
-    //   return acc.concat([newData]);
-    // }
   }, []);
-
-  //it's work, but not perfect
-  //   const sorted = newArr.reduce((acc:any, current:any) => {
-  //        const name = current.name;
-  //     if (acc[name]) {
-  //       acc[name]++;
-  //     } else {
-  //       acc[name] = 1;
-  //     }
-  //     return acc;
-  //   }, [])
 
   console.log("sorted", sorted);
   console.log("newArr", newArr);
 
-  return <div>{JSON.stringify(purchasedItems)}</div>;
+  return <div>{JSON.stringify(sorted)}</div>;
 };
 
 export default Stocks;
+
+//it's work, but not perfect
+//   const sorted = newArr.reduce((acc:any, current:any) => {
+//        const name = current.name;
+//     if (acc[name]) {
+//       acc[name]++;
+//     } else {
+//       acc[name] = 1;
+//     }
+//     return acc;
+//   }, [])

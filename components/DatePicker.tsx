@@ -1,29 +1,37 @@
 "use client";
 
-import { DateRangePicker } from "react-date-range-ts";
-import "react-date-range-ts/dist/styles.css";
-import "react-date-range-ts/dist/theme/default.css";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import { useState } from "react";
+import "antd/dist/reset.css";
 
 // interface IHandleSelect {
 //   handleSelect: () => void;
 // }
 
-const DatePicker = () => {
-  const handleSelect = (ranges: any) => {
-    console.log(ranges);
-  };
+const { RangePicker } = DatePicker;
 
-  const selectionRange = {
-    startDate: new Date(),
-    endDate: new Date(),
-    key: "selection",
-  };
+const DateRangePicker = () => {
+  const [dates, setDates] = useState([]);
+
+  console.log(dates);
 
   return (
     <>
-      <DateRangePicker ranges={[selectionRange]} onChange={handleSelect} />;
+      <RangePicker
+        showTime={{ format: "HH:mm" }}
+        format="YYYY-MM-DD HH:mm"
+        size="large"
+        onChange={(values: any) =>
+          setDates(
+            values?.map((item: any) => {
+              return dayjs(item).toISOString();
+            })
+          )
+        }
+      />
     </>
   );
 };
 
-export default DatePicker;
+export default DateRangePicker;

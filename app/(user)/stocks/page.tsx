@@ -27,7 +27,7 @@ const Stocks = async () => {
   purchasedItems.map((item: IOrderItems) =>
     item.orderItems.forEach((i: IOrderItems) => newArr.push(i))
   );
-  // { ...current, orderQty: current.orderQty + acc.orderQty }
+
   const sorted = newArr.reduce((acc: any, cur: any) => {
     let found = false;
 
@@ -45,13 +45,12 @@ const Stocks = async () => {
     return acc;
   }, []);
 
-  console.log("sorted", sorted);
-  console.log("newArr", newArr);
-  console.log("purchasedItems", purchasedItems);
-
   return (
-    <div className="flex flex-col w-full p-4">
-      <DatePicker />
+    <div className="flex flex-col w-full p-4 space-y-6">
+      <div className="flex flex-row items-center space-x-6">
+        <DatePicker />
+        <button className="p-2 rounded-lg bg-pink-500">Search</button>
+      </div>
       <div className="flex flex-row justify-between items-center p-4 bg-[#2d2d2d] text-gray-300 rounded-lg">
         <div className="w-52">貨物名稱</div>
         <div className="">單價</div>

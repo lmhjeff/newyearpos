@@ -27,27 +27,41 @@ const Stocks = async () => {
     item.orderItems.forEach((i: IOrderItems) => newArr.push(i))
   );
   // { ...current, orderQty: current.orderQty + acc.orderQty }
-  const sorted = newArr.reduce((acc: any, current: any) => {
-    let obj = acc.find((item: any) => item._key === current._key);
-    console.log("obj", obj);
-    if (!obj) {
-      const newCurr = {
-        name: current.name,
-        orderQty: current.orderQty,
-      };
+  const sorted = newArr.reduce((acc: any, cur: any) => {
+    let found = false;
 
-      console.log("newCurr", newCurr);
-
-      return acc.concat([newCurr]);
-    } else {
-      console.log("else");
-      const newData = {
-        name: current.name,
-        orderQty: current.orderQty + acc.orderQty,
-      };
-
-      return acc.concat([newData]);
+    for (let i = 0; i < acc.length; i++) {
+      if (acc[i].name === cur.name) {
+        found = true;
+        acc[i].orderQty = acc[i].orderQty + cur.orderQty;
+      }
     }
+
+    if (!found) {
+      acc.push(cur);
+    }
+
+    return acc;
+    // let obj = acc.find((item: any) => item._key === current._key);
+    // console.log("obj", obj);
+    // if (!obj) {
+    //   const newCurr = {
+    //     name: current.name,
+    //     orderQty: current.orderQty,
+    //   };
+
+    //   console.log("newCurr", newCurr);
+
+    //   return acc.concat([newCurr]);
+    // } else {
+    //   console.log("else");
+    //   const newData = {
+    //     name: current.name,
+    //     orderQty: current.orderQty + acc.orderQty,
+    //   };
+
+    //   return acc.concat([newData]);
+    // }
   }, []);
 
   //it's work, but not perfect
@@ -62,7 +76,8 @@ const Stocks = async () => {
   //   }, [])
 
   console.log("sorted", sorted);
-  
+  console.log("newArr", newArr);
+
   return <div>{JSON.stringify(purchasedItems)}</div>;
 };
 

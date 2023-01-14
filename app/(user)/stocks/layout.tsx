@@ -1,4 +1,5 @@
 import { groq } from "next-sanity";
+import DateRangePicker from "../../../components/DateRangePicker";
 import Status from "../../../components/Status";
 import { client } from "../../../lib/sanity.client";
 
@@ -15,7 +16,7 @@ export default async function RootLayout({
 
   return (
     <div className="flex flex-col w-full p-4">
-      
+      <DateRangePicker />
       {children}
     </div>
   );

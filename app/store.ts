@@ -12,6 +12,8 @@ interface StoreState {
   reset: () => void;
   storeStatus: string;
   setStatus: (status: string) => void;
+  rangeDates: string[];
+  setRangeDates: (dates: string[]) => void;
 }
 
 const useCartStore = create<StoreState>()(
@@ -24,6 +26,7 @@ const useCartStore = create<StoreState>()(
         discount: 0,
         totalPrice: 0,
         storeStatus: "All",
+        rangeDates: [],
         add: (item) => {
           const inCart = get().cart.find((exist) =>
             exist._id === item._id ? true : false
@@ -82,6 +85,11 @@ const useCartStore = create<StoreState>()(
         setStatus: (status) => {
           set((state) => ({
             storeStatus: status,
+          }));
+        },
+        setRangeDates: (dates: string[]) => {
+          set((state) => ({
+            rangeDates: dates,
           }));
         },
       }),

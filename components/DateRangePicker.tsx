@@ -27,8 +27,6 @@ const DateRangePicker = () => {
     setDates([]);
   }, []);
 
-  console.log("dates", dates);
-
   return (
     <div className="flex flex-col w-full">
       <div className="flex-row space-x-4 py-2">

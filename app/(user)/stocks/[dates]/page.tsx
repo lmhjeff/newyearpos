@@ -33,8 +33,6 @@ const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
   }
 `;
 
-  console.log("query", filteredDates);
-
   const newArr: any = [];
   const purchasedItems = await client.fetch(query, { startDate, endDate });
   purchasedItems.map((item: IOrderItems) =>

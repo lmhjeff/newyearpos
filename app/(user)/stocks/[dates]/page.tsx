@@ -1,10 +1,11 @@
+import dayjs from "dayjs";
 import { groq } from "next-sanity";
 import OrderItem from "../../../../components/OrderItem";
 import { client } from "../../../../lib/sanity.client";
 
 type SearchDatesProps = {
   params: {
-    dates: string[];
+    dates: string;
   };
 };
 
@@ -17,8 +18,12 @@ interface IOrderItems {
 }
 
 const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
+  const filteredDates = dates.split("%2C");
+  const startDate = filteredDates[0];
+  const endDate = filteredDates[1];
+
   const query = groq`
-  *[_type == "orders" && _createdAt >= "2023-01-13T16:00:00.000Z"]{
+  *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate]{
       orderItems[] {
       _key,
       name,
@@ -27,8 +32,11 @@ const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
       }
   }
 `;
+
+  console.log("query", filteredDates);
+
   const newArr: any = [];
-  const purchasedItems = await client.fetch(query);
+  const purchasedItems = await client.fetch(query, { startDate, endDate });
   purchasedItems.map((item: IOrderItems) =>
     item.orderItems.forEach((i: IOrderItems) => newArr.push(i))
   );
@@ -51,18 +59,10 @@ const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full p-4 space-y-6">
-      <div className="flex flex-row justify-between items-center p-4 bg-[#2d2d2d] text-gray-300 rounded-lg">
-        <div className="w-48">貨物名稱</div>
-        <div className="w-24">單價</div>
-        <div className="w-16">賣出數量</div>
-        <div className="w-24">賣出總金額</div>
-      </div>
-      <div className="flex flex-col space-y-4">
-        {sorted.map((item: IOrderItems) => (
-          <OrderItem key={item._key} {...item} />
-        ))}
-      </div>
+    <div className="flex flex-col space-y-4 overflow-y-scroll h-[550px] scrollbar-none">
+      {sorted.map((item: IOrderItems) => (
+        <OrderItem key={item._key} {...item} />
+      ))}
     </div>
   );
 };

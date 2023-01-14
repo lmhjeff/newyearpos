@@ -2,7 +2,7 @@
 
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "antd/dist/reset.css";
 import useCartStore from "../app/store";
 import { useRouter } from "next/navigation";
@@ -15,37 +15,53 @@ const { RangePicker } = DatePicker;
 
 const DateRangePicker = () => {
   const router = useRouter();
-  const { rangeDates, setRangeDates } = useCartStore();
+  const [dates, setDates] = useState([]);
   const handleByDates = useCallback(
     (e: string[]) => {
-      setRangeDates(e);
       router.push(`/stocks/${e}`);
     },
-    [rangeDates]
+    [dates]
   );
 
-  console.log("rangeDates", rangeDates);
+  useEffect(() => {
+    setDates([]);
+  }, []);
+
+  console.log("dates", dates);
 
   return (
-    <div className="flex flex-row space-x-4 py-2">
-      <RangePicker
-        showTime={{ format: "HH:mm" }}
-        format="YYYY-MM-DD HH:mm"
-        size="large"
-        onChange={(values: any) =>
-          setRangeDates(
-            values?.map((item: any) => {
-              return dayjs(item).toISOString();
-            })
-          )
-        }
-      />
-      <button
-        onClick={() => handleByDates(rangeDates)}
-        className="p-2 rounded-lg bg-pink-500"
-      >
-        Search
-      </button>
+    <div className="flex flex-col w-full">
+      <div className="flex-row space-x-4 py-2">
+        <RangePicker
+          showTime={{ format: "HH:mm" }}
+          format="YYYY-MM-DD HH:mm"
+          size="large"
+          onChange={(values: any) =>
+            setDates(
+              values?.map((item: any) => {
+                return dayjs(item).toISOString();
+              })
+            )
+          }
+        />
+        <button
+          onClick={() => handleByDates(dates)}
+          className="p-3 rounded-lg bg-pink-500"
+        >
+          Search
+        </button>
+      </div>
+
+      <div className="my-2">
+        選擇日期：
+        {dates.length > 0
+          ? dayjs(dates[0]).format("YYYY-MM-DD HH:mm:ss")
+          : null}{" "}
+        -{" "}
+        {dates.length > 0
+          ? dayjs(dates[1]).format("YYYY-MM-DD HH:mm:ss")
+          : null}
+      </div>
     </div>
   );
 };

@@ -1,11 +1,10 @@
 "use client";
 
-import { DatePicker } from "antd";
+import { Checkbox, DatePicker } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
-import "antd/dist/reset.css";
-import useCartStore from "../app/store";
 import { useRouter } from "next/navigation";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 // interface IHandleSelect {
 //   handleSelect: () => void;
@@ -13,9 +12,18 @@ import { useRouter } from "next/navigation";
 
 const { RangePicker } = DatePicker;
 
+const options = [
+  { label: "All", value: "All" },
+  { label: "Completed", value: "Completed" },
+  { label: "PreOrder", value: "PreOrder" },
+  { label: "WaitingForDelivery", value: "WaitingForDelivery" },
+];
+
 const DateRangePicker = () => {
   const router = useRouter();
   const [dates, setDates] = useState([]);
+  const [checkbox, setCheckbox] = useState(options);
+
   const handleByDates = useCallback(
     (e: string[]) => {
       router.push(`/stocks/${e}`);
@@ -26,6 +34,10 @@ const DateRangePicker = () => {
   useEffect(() => {
     setDates([]);
   }, []);
+
+  const onChange = (checkedValues: CheckboxValueType[]) => {
+    console.log("checked = ", checkedValues);
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -48,6 +60,14 @@ const DateRangePicker = () => {
         >
           Search
         </button>
+      </div>
+      <div className="flex flex-row items-center space-x-4">
+        {checkbox.map((item) => (
+          <div key={item.label}>
+            <input type="checkbox" id={item.label} value={item.value} />
+            <label className="ml-2">{item.label}</label>
+          </div>
+        ))}
       </div>
 
       <div className="my-2">

@@ -1,6 +1,7 @@
 "use client";
 
 import "../../styles/globals.css";
+import "antd/dist/reset.css";
 import Menu from "../../components/Menu";
 import { groq } from "next-sanity";
 import { useEffect, useState } from "react";

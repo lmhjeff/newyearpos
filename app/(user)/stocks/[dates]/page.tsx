@@ -1,7 +1,10 @@
-import dayjs from "dayjs";
+"use client";
 import { groq } from "next-sanity";
+import { useEffect } from "react";
 import OrderItem from "../../../../components/OrderItem";
 import { client } from "../../../../lib/sanity.client";
+import { Checkbox } from "antd";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 type SearchDatesProps = {
   params: {
@@ -21,17 +24,20 @@ const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
   const filteredDates = dates.split("%2C");
   const startDate = filteredDates[0];
   const endDate = filteredDates[1];
+  useEffect(() => {
+    console.log("hi");
+  }, []);
 
   const query = groq`
-  *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate]{
-      orderItems[] {
-      _key,
-      name,
-      orderQty,
-      price
-      }
-  }
-`;
+    *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate]{
+        orderItems[] {
+        _key,
+        name,
+        orderQty,
+        price
+        }
+    }
+  `;
 
   const newArr: any = [];
   const purchasedItems = await client.fetch(query, { startDate, endDate });

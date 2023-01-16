@@ -2,9 +2,18 @@
 
 import { Checkbox, DatePicker } from "antd";
 import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactFragment,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import useCartStore, { IStatusOption } from "../app/store";
 
 // interface IHandleSelect {
 //   handleSelect: () => void;
@@ -28,7 +37,8 @@ const options = [
 const DateRangePicker = () => {
   const router = useRouter();
   const [dates, setDates] = useState([]);
-  const [checkbox, setCheckbox] = useState(options);
+  // const [checkbox, setCheckbox] = useState(options);
+  const { statusOption, setStatusOption } = useCartStore();
 
   const handleByDates = useCallback(
     (e: string[]) => {
@@ -42,18 +52,25 @@ const DateRangePicker = () => {
   }, []);
 
   const handleChangeCheckBox = (value: any) => {
-    setCheckbox((prev) => {
-      return prev.map((item) => {
-        // console.log(typeof item.value);
-        if (item.value === value) {
-          return { ...item, check: !item.check };
-        } else {
-          return { ...item };
-        }
-      });
-    });
+    const updatedStatus = statusOption?.map((item, index) =>
+      item.value === value ? { ...item, check: !item.check } : { ...item }
+    );
+
+    console.log("updatedStatus", updatedStatus);
+
+    // setStatusOption(updatedStatus);
+    // setStatusOption((prev) => {
+    //   return prev.map((item: any) => {
+    //     // console.log(typeof item.value);
+    //     if (item.value === value) {
+    //       return { ...item, check: !item.check };
+    //     } else {
+    //       return { ...item };
+    //     }
+    //   });
+    // });
   };
-  console.log("checked = ", checkbox);
+  console.log("checked = ", statusOption);
 
   return (
     <div className="flex flex-col w-full">
@@ -78,12 +95,12 @@ const DateRangePicker = () => {
         </button>
       </div>
       <div className="flex flex-row items-center space-x-4 my-4">
-        {checkbox.map((item) => (
+        {statusOption?.map((item: IStatusOption, index) => (
           <div
             key={item.label}
-            onClick={() => handleChangeCheckBox(item.value)}
+            onClick={() => handleChangeCheckBox(item.check)}
           >
-            <input type="checkbox" id={item.label} value={item.value} />
+            <input type="checkbox" id={item.value} value={item.value} />
             <label className="ml-2">{item.label}</label>
           </div>
         ))}

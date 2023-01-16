@@ -1,5 +1,19 @@
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
+
+const statusOptions = [
+  { label: "All", value: "All", check: false },
+  { label: "Completed", value: "Completed", check: false },
+  { label: "PreOrder", value: "PreOrder", check: false },
+  { label: "WaitingForDelivery", value: "WaitingForDelivery", check: false },
+];
+
+export interface IStatusOption {
+  label: string;
+  value: string;
+  check: boolean;
+}
+
 interface StoreState {
   cart: Item[];
   add: (item: Item) => void;
@@ -12,8 +26,10 @@ interface StoreState {
   reset: () => void;
   storeStatus: string;
   setStatus: (status: string) => void;
-  rangeDates: string[];
-  setRangeDates: (dates: string[]) => void;
+  statusOption: IStatusOption[];
+  setStatusOption: (value: IStatusOption[]) => void;
+  // rangeDates: string[];
+  // setRangeDates: (dates: string[]) => void;
 }
 
 const useCartStore = create<StoreState>()(
@@ -26,7 +42,8 @@ const useCartStore = create<StoreState>()(
         discount: 0,
         totalPrice: 0,
         storeStatus: "All",
-        rangeDates: [],
+        statusOption: statusOptions,
+        // rangeDates: [],
         add: (item) => {
           const inCart = get().cart.find((exist) =>
             exist._id === item._id ? true : false
@@ -87,11 +104,16 @@ const useCartStore = create<StoreState>()(
             storeStatus: status,
           }));
         },
-        setRangeDates: (dates: string[]) => {
+        setStatusOption: (value) => {
           set((state) => ({
-            rangeDates: dates,
+            statusOption: value,
           }));
         },
+        // setRangeDates: (dates: string[]) => {
+        //   set((state) => ({
+        //     rangeDates: dates,
+        //   }));
+        // },
       }),
       {
         name: "cart-storage",

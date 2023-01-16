@@ -12,11 +12,17 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 const { RangePicker } = DatePicker;
 
+interface ICheckboxOption {
+  label: string;
+  value: string;
+  chcek: boolean;
+}
+
 const options = [
-  { label: "All", value: "All" },
-  { label: "Completed", value: "Completed" },
-  { label: "PreOrder", value: "PreOrder" },
-  { label: "WaitingForDelivery", value: "WaitingForDelivery" },
+  { label: "All", value: "All", check: false },
+  { label: "Completed", value: "Completed", check: false },
+  { label: "PreOrder", value: "PreOrder", check: false },
+  { label: "WaitingForDelivery", value: "WaitingForDelivery", check: false },
 ];
 
 const DateRangePicker = () => {
@@ -35,9 +41,19 @@ const DateRangePicker = () => {
     setDates([]);
   }, []);
 
-  const onChange = (checkedValues: CheckboxValueType[]) => {
-    console.log("checked = ", checkedValues);
+  const handleChangeCheckBox = (value: any) => {
+    setCheckbox((prev) => {
+      return prev.map((item) => {
+        // console.log(typeof item.value);
+        if (item.value === value) {
+          return { ...item, check: !item.check };
+        } else {
+          return { ...item };
+        }
+      });
+    });
   };
+  console.log("checked = ", checkbox);
 
   return (
     <div className="flex flex-col w-full">
@@ -61,16 +77,19 @@ const DateRangePicker = () => {
           Search
         </button>
       </div>
-      <div className="flex flex-row items-center space-x-4">
+      <div className="flex flex-row items-center space-x-4 my-4">
         {checkbox.map((item) => (
-          <div key={item.label}>
+          <div
+            key={item.label}
+            onClick={() => handleChangeCheckBox(item.value)}
+          >
             <input type="checkbox" id={item.label} value={item.value} />
             <label className="ml-2">{item.label}</label>
           </div>
         ))}
       </div>
 
-      <div className="my-2">
+      <div>
         選擇日期：
         {dates.length > 0
           ? dayjs(dates[0]).format("YYYY-MM-DD HH:mm:ss")

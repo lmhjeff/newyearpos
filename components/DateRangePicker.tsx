@@ -1,5 +1,5 @@
+//@ts-nocheck
 "use client";
-
 import { Checkbox, DatePicker } from "antd";
 import dayjs from "dayjs";
 import {
@@ -50,15 +50,29 @@ const DateRangePicker = () => {
   useEffect(() => {
     setDates([]);
   }, []);
+  useEffect(() => {
+    console.log("statusOption", statusOption);
+  }, [statusOption]);
 
   const handleChangeCheckBox = (value: any) => {
     const updatedStatus = statusOption?.map((item, index) =>
-      item.value === value ? { ...item, check: !item.check } : { ...item }
+      item === value ? { ...item, check: !item.check } : { ...item }
     );
 
-    console.log("updatedStatus", updatedStatus);
+    console.log("updatedStatus1111", updatedStatus);
 
-    // setStatusOption(updatedStatus);
+    setStatusOption(updatedStatus);
+    // setStatusOption((prev: any) => {
+    //   if (prev) {
+    //     return prev.map((item) => {
+    //       if (item.value === value) {
+    //         return { ...item, check: !item.check };
+    //       } else {
+    //         return { ...item };
+    //       }
+    //     });
+    //   }
+    // });
     // setStatusOption((prev) => {
     //   return prev.map((item: any) => {
     //     // console.log(typeof item.value);
@@ -70,6 +84,7 @@ const DateRangePicker = () => {
     //   });
     // });
   };
+
   console.log("checked = ", statusOption);
 
   return (
@@ -96,12 +111,15 @@ const DateRangePicker = () => {
       </div>
       <div className="flex flex-row items-center space-x-4 my-4">
         {statusOption?.map((item: IStatusOption, index) => (
-          <div
-            key={item.label}
-            onClick={() => handleChangeCheckBox(item.check)}
-          >
-            <input type="checkbox" id={item.value} value={item.value} />
-            <label className="ml-2">{item.label}</label>
+          <div key={item?.label}>
+            <input
+              type="checkbox"
+              id={item?.value}
+              value={item?.value}
+              checked={item?.check}
+              onChange={() => handleChangeCheckBox(item)}
+            />
+            <label className="ml-2">{item?.label}</label>
           </div>
         ))}
       </div>

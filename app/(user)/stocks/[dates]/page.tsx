@@ -1,10 +1,6 @@
-"use client";
 import { groq } from "next-sanity";
-import { useEffect } from "react";
 import OrderItem from "../../../../components/OrderItem";
 import { client } from "../../../../lib/sanity.client";
-import { Checkbox } from "antd";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 
 type SearchDatesProps = {
   params: {
@@ -22,14 +18,34 @@ interface IOrderItems {
 
 const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
   const filteredDates = dates.split("%2C");
+  console.log("filteredDates", filteredDates);
   const startDate = filteredDates[0];
   const endDate = filteredDates[1];
-  useEffect(() => {
-    console.log("hi");
-  }, []);
+  const status = filteredDates[2].replace("%20", "");
 
-  const query = groq`
-    *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate]{
+  const statusQuery = {
+    All: groq`
+      *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate]{
+          orderItems[] {
+          _key,
+          name,
+          orderQty,
+          price
+          }
+      }
+    `,
+    Completed: groq`
+      *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate && status == 'Completed']{
+          orderItems[] {
+          _key,
+          name,
+          orderQty,
+          price
+          }
+      }
+    `,
+    PreOrder: groq`
+    *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate && status == 'PreOrder']{
         orderItems[] {
         _key,
         name,
@@ -37,7 +53,21 @@ const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
         price
         }
     }
-  `;
+  `,
+    WaitingForDelivery: groq`
+  *[_type == "orders" && _createdAt >= $startDate && _createdAt <= $endDate && status == 'WaitingForDelivery']{
+      orderItems[] {
+      _key,
+      name,
+      orderQty,
+      price
+      }
+  }
+`,
+  };
+
+  const query = statusQuery[status];
+  console.log("query", query);
 
   const newArr: any = [];
   const purchasedItems = await client.fetch(query, { startDate, endDate });

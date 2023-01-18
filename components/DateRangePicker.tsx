@@ -1,23 +1,9 @@
-//@ts-nocheck
 "use client";
-import { Checkbox, DatePicker } from "antd";
+import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
 import { useRouter } from "next/navigation";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
-import useCartStore, { IStatusOption } from "../app/store";
-
-// interface IHandleSelect {
-//   handleSelect: () => void;
-// }
+import { useCallback, useEffect, useState } from "react";
+import { IStatusOption } from "../app/store";
 
 const { RangePicker } = DatePicker;
 
@@ -37,12 +23,13 @@ const options = [
 const DateRangePicker = () => {
   const router = useRouter();
   const [dates, setDates] = useState([]);
-  // const [checkbox, setCheckbox] = useState(options);
-  const { statusOption, setStatusOption } = useCartStore();
+  const [checkbox, setCheckbox] = useState(options);
+  const [query, setQuery] = useState("");
+  // const { statusOption, setStatusOption } = useCartStore();
 
   const handleByDates = useCallback(
-    (e: string[]) => {
-      router.push(`/stocks/${e}`);
+    (e: string[], query) => {
+      router.push(`/stocks/${e}, ${query}`);
     },
     [dates]
   );
@@ -50,42 +37,17 @@ const DateRangePicker = () => {
   useEffect(() => {
     setDates([]);
   }, []);
-  useEffect(() => {
-    console.log("statusOption", statusOption);
-  }, [statusOption]);
 
   const handleChangeCheckBox = (value: any) => {
-    const updatedStatus = statusOption?.map((item, index) =>
-      item === value ? { ...item, check: !item.check } : { ...item }
+    const updatedStatus = checkbox?.map((item, index) =>
+      item.value === value ? { ...item, check: !item.check } : { ...item }
     );
 
-    console.log("updatedStatus1111", updatedStatus);
+    setCheckbox(updatedStatus);
+    const query = updatedStatus.find((item) => item.check)?.value!;
 
-    setStatusOption(updatedStatus);
-    // setStatusOption((prev: any) => {
-    //   if (prev) {
-    //     return prev.map((item) => {
-    //       if (item.value === value) {
-    //         return { ...item, check: !item.check };
-    //       } else {
-    //         return { ...item };
-    //       }
-    //     });
-    //   }
-    // });
-    // setStatusOption((prev) => {
-    //   return prev.map((item: any) => {
-    //     // console.log(typeof item.value);
-    //     if (item.value === value) {
-    //       return { ...item, check: !item.check };
-    //     } else {
-    //       return { ...item };
-    //     }
-    //   });
-    // });
+    setQuery(query);
   };
-
-  console.log("checked = ", statusOption);
 
   return (
     <div className="flex flex-col w-full">
@@ -103,21 +65,21 @@ const DateRangePicker = () => {
           }
         />
         <button
-          onClick={() => handleByDates(dates)}
+          onClick={() => handleByDates(dates, query)}
           className="p-3 rounded-lg bg-pink-500"
         >
           Search
         </button>
       </div>
       <div className="flex flex-row items-center space-x-4 my-4">
-        {statusOption?.map((item: IStatusOption, index) => (
+        {checkbox?.map((item: IStatusOption, index) => (
           <div key={item?.label}>
             <input
               type="checkbox"
               id={item?.value}
               value={item?.value}
               checked={item?.check}
-              onChange={() => handleChangeCheckBox(item)}
+              onChange={() => handleChangeCheckBox(item.value)}
             />
             <label className="ml-2">{item?.label}</label>
           </div>

@@ -66,7 +66,7 @@ const SeachDate = async ({ params: { dates } }: SearchDatesProps) => {
 `,
   };
 
-  const query = statusQuery[status];
+  const query = statusQuery[status] ?? statusQuery["All"];
   console.log("query", query);
 
   const newArr: any = [];

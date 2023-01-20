@@ -210,7 +210,7 @@ const Cart = () => {
                   ))
                 : null}
             </div>
-            <div className="flex flex-col w-full justify-between items-center bg-[#2d2d2d] rounded-md  absolute bottom-0 p-4 space-y-2">
+            <div className="flex flex-col w-full h-[425px] justify-between items-center bg-[#2d2d2d] rounded-md  absolute bottom-0 p-4 space-y-2 overflow-y-scroll">
               <div className="flex flex-col space-y-3 w-full">
                 <div className="flex flex-row w-full justify-between items-center">
                   <p>Subtotal</p>
@@ -247,7 +247,7 @@ const Cart = () => {
                   />
                 </div>
                 <hr className="border-dashed border-1 border-white w-full" />
-                <div className="flex flex-row w-full justify-between items-center my-2 text-3xl font-semibold">
+                <div className="flex flex-row w-full justify-between items-center text-3xl font-semibold">
                   <p>Total</p>
                   <p>${total?.toFixed(2)}</p>
                 </div>

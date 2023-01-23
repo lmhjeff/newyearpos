@@ -42,6 +42,8 @@ const DoughnutChart = ({ cash, payme, fps, octopus, tapngo }) => {
 
   const options = {};
 
+  
+
   return (
     <div>
       <Doughnut data={data} />
